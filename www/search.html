@@ -1,171 +1,189 @@
 <!DOCTYPE html>
 <html>
 
-	<head>
-		<meta charset="utf-8" />
-		<meta name="referrer" content="no-referrer">
-		<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
-		<title></title>
-		<style type="text/css">
-			body {
-				padding-top: 70px;
-			}
-		</style>
-	</head>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+    <title></title>
+    <style type="text/css">
+        body {
+            padding-top: 70px;
+        }
+    </style>
+</head>
 
-	<body>
-		<!-- Fixed navbar -->
-		<nav class="navbar navbar-default navbar-fixed-top">
-			<div class="container">
-				<div class="navbar-header">
+<body>
+<!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
 
-					<a class="navbar-brand" href="#">Project name</a>
-				</div>
-				<div id="navbar" class="navbar-collapse collapse">
-					<ul class="nav navbar-nav">
-						<li>
-							<a href="index.html">&nbsp;&nbsp;&nbsp;首页&nbsp;&nbsp;&nbsp;</a>
-						</li>
-						<li>
-							<a href="#about">&nbsp;&nbsp;&nbsp;论坛&nbsp;&nbsp;&nbsp;</a>
-						</li>
-						<li class="active">
-							<a href="#">&nbsp;&nbsp;&nbsp;搜索&nbsp;&nbsp;&nbsp;</a>
-						</li>
+            <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="index.html">&nbsp;&nbsp;&nbsp;首页&nbsp;&nbsp;&nbsp;</a>
+                </li>
+                <li>
+                    <a href="#about">&nbsp;&nbsp;&nbsp;论坛&nbsp;&nbsp;&nbsp;</a>
+                </li>
+                <li class="active">
+                    <a href="#">&nbsp;&nbsp;&nbsp;搜索&nbsp;&nbsp;&nbsp;</a>
+                </li>
 
-						<ul class="nav navbar-nav">
-							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" id="city_tag" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">城市 <span class="caret"></span></a>
-								<ul class="dropdown-menu city" style="height: 400px; overflow: auto">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" id="city_tag" data-toggle="dropdown" role="button"
+                           aria-haspopup="true" aria-expanded="false">城市 <span class="caret"></span></a>
+                        <ul class="dropdown-menu city" style="height: 400px; overflow: auto">
 
-								</ul>
-							</li>
-							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" id="region_tag" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">区域 <span class="caret"></span></a>
-								<ul class="dropdown-menu region">
-									<li>
-										<a href="#" class="choose_region">先选择城市！</a>
-									</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" id="region_tag" data-toggle="dropdown" role="button"
+                           aria-haspopup="true" aria-expanded="false">区域 <span class="caret"></span></a>
+                        <ul class="dropdown-menu region">
+                            <li>
+                                <a href="#" class="choose_region">先选择城市！</a>
+                            </li>
 
-								</ul>
-							</li>
-							<form class="navbar-form navbar-left">
-								<div class="form-group">
-									<input type="text" class="form-control" id="min_p" placeholder="最低价格" style="width: 100px">
-									<input type="text" class="form-control" id="max_p" placeholder="最高价格" style="width: 100px">
-								</div>
-								<input type="button" class="btn btn-default btn_search btn_search" value="搜索"></input>
-							</form>
+                        </ul>
+                    </li>
+                    <form class="navbar-form navbar-left">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="min_p" placeholder="最低价格" style="width: 100px">
+                            <input type="text" class="form-control" id="max_p" placeholder="最高价格" style="width: 100px">
+                        </div>
+                        <input type="button" class="btn btn-default btn_search btn_search" value="搜索"></input>
+                    </form>
 
-						</ul>
+                </ul>
 
-					</ul>
-					<ul class="nav navbar-nav navbar-right">
-						<a class="navbar-brand" href="#">请点击此处转到主页登陆。</a>
-					</ul>
-				</div>
-				<!--/.nav-collapse -->
-			</div>
-		</nav>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <a class="navbar-brand" href="#">请点击此处转到主页登陆。</a>
+            </ul>
+        </div>
+        <!--/.nav-collapse -->
+    </div>
+</nav>
 
-		<div class="container">
-			<div class="page-header">
-				<!--<h1>根据选择的条件，筛选出了{{ num }}条信息。
-            <small>将指针悬停在按钮上，可以查看详细的信息。</small>
-        </h1>-->
-				<h1 id="text">请先在导航栏选择你的条件。下方是为你推荐的租房信息。</h1>
-				<hr />
-				<small id="s_text"></small>
-			</div>
+<div class="container">
+    <div class="page-header">
+        <!--<h1>根据选择的条件，筛选出了{{ num }}条信息。
+    <small>将指针悬停在按钮上，可以查看详细的信息。</small>
+</h1>-->
+        <h1 id="text">请先在导航栏选择你的条件。下方是为你推荐的租房信息。</h1>
+        <hr/>
+        <small id="s_text"></small>
+    </div>
 
-			<div class="row context">
-			</div>
-		</div>
+    <div class="row context">
+    </div>
+</div>
 
-		<script type="text/javascript" src="js/jquery.js"></script>
-		<script type="text/javascript" src="js/bootstrap.js"></script>
-		<script type="text/javascript">
-			$(function() {
-				$.getJSON("/api/load_city/", function(data) {
-					var citys_list = data.citys_list
-					for(i = 0; i < citys_list.length; i++) {
-						var $li = $('<li><a href="#" class="choose_city" onclick="choose_c(this)">' + citys_list[i] + '</a></li>')
-						$li.appendTo($('.city'))
-					}
-				})
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $.getJSON("/api/load_city/", function (data) {
+            var citys_list = data.citys_list
+            for (i = 0; i < citys_list.length; i++) {
+                var $li = $('<li><a href="#" class="choose_city" onclick="choose_c(this)">' + citys_list[i] + '</a></li>')
+                $li.appendTo($('.city'))
+            }
+        })
 
-				$(".btn_search").click(function() {
-					var city = $("#city_tag").text()
-					var region = $("#region_tag").text()
-					var min_p = $("#min_p").val()
-					var max_p = $("#max_p").val()
+        $(".btn_search").click(function () {
+            var city = $("#city_tag").text()
+            var region = $("#region_tag").text()
+            var min_p = $("#min_p").val()
+            var max_p = $("#max_p").val()
 
-					if(min_p.trim() == "") {
-						min_p = "0"
-					}
-					if(max_p.trim() == "") {
-						max_p = "9999999"
-					}
+            if (min_p.trim() == "") {
+                min_p = "0"
+            }
+            if (max_p.trim() == "") {
+                max_p = "9999999"
+            }
 
-					console.log(city, region, min_p, max_p)
-					//					window.open("/App/search/" + city.trim() + "/" + region.trim() + "/" + min_p + "/" + max_p + "/", target = "_self")
-					$.getJSON("/App/search/" + city.trim() + "/" + region.trim() + "/" + min_p + "/" + max_p + "/", function(data) {
-						var num = data.num
-						$('#text').text('根据选择的条件，为您筛选出了' + num + '条信息。')
+            console.log(city, region, min_p, max_p)
+            //					window.open("/App/search/" + city.trim() + "/" + region.trim() + "/" + min_p + "/" + max_p + "/", target = "_self")
 
-						var houses_list = data.houses
-						for(i = 0; i < houses_list.length; i++) {
-							var $div = $('<div class="col-sm-6 col-md-4">\n' +
-								'                <div class="thumbnail">\n' +
-								'                    <img src=' + i.img + ' alt="..." style="height: 230px">\n' +
-								'                    <div class="caption">\n' +
-								'                        <h3 class="features">' + i.title + '</h3>\n' +
-								'                        <p>出租方式：' + i.renttype</p>\n' +
-								'                        <p>房形：{{ house.hometype }}</p>\n' +
-								'                        <p>{{ house.payment }}</p>\n' +
-								'                        <p>{{ house.decorade }}</p>\n' +
-								'                        <p>{{ house.area }}</p>\n' +
-								'                        <p><a href="#" class="btn btn-primary" role="button">收藏</a> <a href="#"\n' +
-								'                                                                                           class="btn btn-default"\n' +
-								'                                                                                           role="button">详情</a></p>\n' +
-								'                    </div>\n' +
-								'                </div>\n' +
-								'            </div>')
-						}
 
-					})
-				})
-			})
+            $.ajax({
+                type: "GET",
+                url: "/api/load_house/",
+                data: {
+                    city: 'AAAA',
+                    region: 'BBBB',
+                    min_p: min_p,
+                    max_p: max_p
+                },
+                success: function (data) {
+                    console.log(data)
+                }
+            })
+            // $.ajax("/api/search/", {city: city.trim(), region: region.trim(), min_p: min_p, max_p: max_p}, function (data) {
+            //     console.log('111')
+            // var num = data.num
+            // $('#text').text('根据选择的条件，为您筛选出了' + num + '条信息。')
+            //
+            // var houses_list = data.houses
+            // for (i = 0; i < houses_list.length; i++) {
+            //     var $div = $('<div class="col-sm-6 col-md-4">\n' +
+            //         '                <div class="thumbnail">\n' +
+            //         '                    <img src=' + i.img + ' alt="..." style="height: 230px">\n' +
+            //         '                    <div class="caption">\n' +
+            //         '                        <h3 class="features">' + i.title + '</h3>\n' +
+            //         '                        <p>出租方式：' + i.renttype + '</p>\n' +
+            //         '                        <p>房形：' + i.hometype + '</p>\n' +
+            //         '                        <p>' + i.payment + '</p>\n' +
+            //         '                        <p>' + i.decorade + '</p>\n' +
+            //         '                        <p>' + i.area + '</p>\n' +
+            //         '                        <p><a href="#" class="btn btn-primary" role="button">收藏</a> <a href="#"\n' +
+            //         '                                                                                           class="btn btn-default"\n' +
+            //         '                                                                                           role="button">详情</a></p>\n' +
+            //         '                    </div>\n' +
+            //         '                </div>\n' +
+            //         '            </div>')
+            // }
 
-			function choose_c(obj) {
-				$('#region_tag').html("区域" + '&nbsp;<span class="caret">')
-				var city_name = $(obj)
-				console.log(city_name.text())
-				// console.log(city_name.parent().parent().prev().text())
-				var tag = city_name.parent().parent().prev()
-				tag.html(city_name.text() + '&nbsp;<span class="caret">')
+            // })
+        })
+    })
 
-				$.getJSON("/api/load_region/", {
-					"city_name": city_name.text()
-				}, function(data) {
-					var regions_list = data.regions_list
-					$('.region').empty()
-					for(i = 0; i < regions_list.length; i++) {
-						var $li = $('<li><a href="#" class="choose_region" onclick="choose_r(this)">' + regions_list[i] + '</a></li>')
+    function choose_c(obj) {
+        $('#region_tag').html("区域" + '&nbsp;<span class="caret">')
+        var city_name = $(obj)
+        console.log(city_name.text())
+        // console.log(city_name.parent().parent().prev().text())
+        var tag = city_name.parent().parent().prev()
+        tag.html(city_name.text() + '&nbsp;<span class="caret">')
 
-						$li.appendTo($('.region'))
-					}
+        $.getJSON("/api/load_region/", {
+            "city_name": city_name.text()
+        }, function (data) {
+            var regions_list = data.regions_list
+            $('.region').empty()
+            for (i = 0; i < regions_list.length; i++) {
+                var $li = $('<li><a href="#" class="choose_region" onclick="choose_r(this)">' + regions_list[i] + '</a></li>')
 
-				})
-			}
+                $li.appendTo($('.region'))
+            }
 
-			function choose_r(obj) {
-				// console.log(obj.innerText)
-				var tag = document.getElementById("region_tag")
-				// console.log(tag.innerText)
-				tag.innerHTML = obj.innerText + '&nbsp;<span class="caret">'
-			}
-		</script>
-	</body>
+        })
+    }
+
+    function choose_r(obj) {
+        // console.log(obj.innerText)
+        var tag = document.getElementById("region_tag")
+        // console.log(tag.innerText)
+        tag.innerHTML = obj.innerText + '&nbsp;<span class="caret">'
+    }
+</script>
+</body>
 
 </html>

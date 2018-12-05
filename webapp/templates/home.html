@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="home_content">
+        <div class="jumbotron">
+            <h1>欢迎来到佛系租房!</h1>
+            <p>由于我们的技术人员其实什么也不会写，我们的技术人员对未来看不到一点希望，所以只能写这么一个瓜皮页面。但是————你可以先按照你喜欢的规则预览一下部分房屋信息。</p>
+            <p><a class="btn btn-primary btn-lg" href="#" role="button">点击此处当场去世</a></p>
+        </div>
+
+        <h1>----我可以在这里干什么？</h1>
+
+        <div class="row">
+            <div class="col-md-4">
+                <h2>查找心仪的房子</h2>
+                <p>在导航栏的条件筛选组件中输入你理想的规则，网站将为你展示符合你条件的房屋。</p>
+                <p><a class="btn btn-default" href="#" role="button">点击此处当场去世 &raquo;</a></p>
+            </div>
+            <div class="col-md-4">
+                <h2>在同城论坛交流</h2>
+                <p>你可以选择进入一个城市的论坛，与其他的用户交流探讨租房经验或者与他人合租。如果你运气好碰到心仪的另一半我们会有一句MMP要讲。</p>
+                <p><a class="btn btn-default" href="{% url 'app:blog' %}" role="button">点击此处当场去世 &raquo;</a></p>
+            </div>
+            <div class="col-md-4">
+                <h2>预览全国的概况</h2>
+                <p>你可以在这里预览房价的分布情况，例如房价最高的几个城市，房价最集中的区间等。</p>
+                <p><a class="btn btn-default" href="#" role="button">点击此处当场去世 &raquo;</a></p>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <footer>
+        <p>关于我们：</p>
+        <p>增哥-我一个人就是一个团队</p>
+    </footer>
+{% endblock %}

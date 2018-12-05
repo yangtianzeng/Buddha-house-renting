@@ -18,6 +18,8 @@ from django.contrib import admin
 from App import views
 
 urlpatterns = [
+    url(r'^load_house/', views.load_house, name="load_house"),
+
     url(r'^home/', views.home, name="home"),
     url(r'^load_city/', views.load_city, name="load_city"),
 
@@ -28,10 +30,8 @@ urlpatterns = [
     url(r'^login/', views.login, name="login"),
     url(r'^logout/', views.logout, name="logout"),
     url(r'^blog/', views.blog, name="blog"),
-    url(r'^search/(\w+)/(\w+)/(\w+)/(\w+)/', views.search, name="search"),
     url(r'^test/', views.test, name="test"),
     url(r'^hello/', views.hello, name="hello"),
     url(r'^registerpage/', views.registerPage, name='registerpage'),
-    url(r'^searchinfo/', views.searchinfo, name='searchpage'),
 
 ]
