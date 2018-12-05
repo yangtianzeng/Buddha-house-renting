@@ -127,52 +127,22 @@ def load_house(request):
     min_p = request.GET.get('min_p')
     max_p = request.GET.get('max_p')
     print(city, region)
-    # city_object = CityModel.objects.get(citys=city)
-    # city_id = city_object.id
-    # region_object = RegionModel.objects.filter(regions=region, city_id=city_id)
-    # region_object = region_object.first()
-    #houses = region_object.housemodel_set.all()
-    # # print(houses)
-    #
-    # data = {
-    #     'city': city,
-    #     'region': region,
-    #     'min_p': min_p,
-    #     'max_p': max_p,
-    #     'houses': houses.values(),
-    #     'num': len(houses)
-    # }
-    #print(data)
-    # request.session['search_city'] = city
-    # request.session['search_region'] = region
-    # request.session['search_min'] = min_p
-    # request.session['search_max'] = max_p
-    return "Test"
+    city_object = CityModel.objects.get(citys=city)
+    city_id = city_object.id
+    region_object = RegionModel.objects.filter(regions=region, city_id=city_id)
+    region_object = region_object.first()
+    houses = region_object.housemodel_set.all()
+    # print(houses)
 
-# def searchfirst(request):
-#     houses = HouseModel
-
-# def searchinfo(request):
-#     city = request.session.get('search_city')
-#     region = request.session.get('search_region')
-#     min_p = request.session.get('search_min')
-#     max_p = request.session.get('search_max')
-#
-#     city_object = CityModel.objects.get(citys=city)
-#     regions = city_object.regionmodel_set.all()
-#     regions_list = []
-#     for i in regions:
-#         regions_list.append(i.regions)
-#
-#     data = {
-#         'city': city,
-#         'region': region,
-#         'min_p': min_p,
-#         'max_p': max_p,
-#         'regions_list': regions_list
-#     }
-#
-#     return JsonResponse(data)
+    data = {
+        'city': city,
+        'region': region,
+        'min_p': min_p,
+        'max_p': max_p,
+        'houses': list(houses.values()),
+        'num': len(houses)
+    }
+    return JsonResponse(data)
 
 
 def test(request):

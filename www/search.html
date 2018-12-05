@@ -56,7 +56,7 @@
                             <input type="text" class="form-control" id="min_p" placeholder="最低价格" style="width: 100px">
                             <input type="text" class="form-control" id="max_p" placeholder="最高价格" style="width: 100px">
                         </div>
-                        <input type="button" class="btn btn-default btn_search btn_search" value="搜索"></input>
+                        <input type="button" class="btn btn-default btn_search btn_search" value="搜索">
                     </form>
 
                 </ul>
@@ -113,45 +113,60 @@
             //					window.open("/App/search/" + city.trim() + "/" + region.trim() + "/" + min_p + "/" + max_p + "/", target = "_self")
 
 
-            $.ajax({
-                type: "GET",
-                url: "/api/load_house/",
-                data: {
-                    city: 'AAAA',
-                    region: 'BBBB',
-                    min_p: min_p,
-                    max_p: max_p
-                },
-                success: function (data) {
-                    console.log(data)
-                }
-            })
-            // $.ajax("/api/search/", {city: city.trim(), region: region.trim(), min_p: min_p, max_p: max_p}, function (data) {
-            //     console.log('111')
-            // var num = data.num
-            // $('#text').text('根据选择的条件，为您筛选出了' + num + '条信息。')
-            //
-            // var houses_list = data.houses
-            // for (i = 0; i < houses_list.length; i++) {
-            //     var $div = $('<div class="col-sm-6 col-md-4">\n' +
-            //         '                <div class="thumbnail">\n' +
-            //         '                    <img src=' + i.img + ' alt="..." style="height: 230px">\n' +
-            //         '                    <div class="caption">\n' +
-            //         '                        <h3 class="features">' + i.title + '</h3>\n' +
-            //         '                        <p>出租方式：' + i.renttype + '</p>\n' +
-            //         '                        <p>房形：' + i.hometype + '</p>\n' +
-            //         '                        <p>' + i.payment + '</p>\n' +
-            //         '                        <p>' + i.decorade + '</p>\n' +
-            //         '                        <p>' + i.area + '</p>\n' +
-            //         '                        <p><a href="#" class="btn btn-primary" role="button">收藏</a> <a href="#"\n' +
-            //         '                                                                                           class="btn btn-default"\n' +
-            //         '                                                                                           role="button">详情</a></p>\n' +
-            //         '                    </div>\n' +
-            //         '                </div>\n' +
-            //         '            </div>')
-            // }
-
+            // $.ajax({
+            //     type: "GET",
+            //     url: "/api/load_house/",
+            //     // data: {
+            //     //     city: 'AAAA',
+            //     //     region: 'BBBB',
+            //     //     min_p: min_p,
+            //     //     max_p: max_p
+            //     // },
+            //     success: function (data) {
+            //         console.log(data)
+            //     }
             // })
+
+            $.getJSON("/api/load_house/", {
+                city: city.trim(),
+                region: region.trim(),
+                min_p: min_p,
+                max_p: max_p
+            }, function (data) {
+                console.log('111')
+                $('.context').empty()
+                var num = data.num
+                $('#text').text('根据选择的条件，为您筛选出了' + num + '条信息。')
+
+                var houses_list = data.houses
+                console.log(houses_list)
+                for (i = 0; i < houses_list.length; i++) {
+                    if (houses_list[i].img == "暂无图片展示") {
+                        houses_list[i].img = "https://gss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/zhidao/wh%3D600%2C800/sign=05e1074ebf096b63814c56563c03ab7c/8b82b9014a90f6037c2a5c263812b31bb051ed3d.jpg"
+                    }
+                    if (houses_list[i].title.length > 22){
+                        houses_list[i].title = houses_list[i].title.slice(0, 22) + '...'
+                    }
+                    var $div = $('<div class="col-sm-6 col-md-4">\n' +
+                        '                <div class="thumbnail">\n' +
+                        '                    <img src=' + houses_list[i].img + ' alt="..." style="height: 230px">\n' +
+                        '                    <div class="caption">\n' +
+                        '                        <h3 class="features">' + houses_list[i].title + '</h3>\n' +
+                        '                        <p>出租方式：' + houses_list[i].renttype + '</p>\n' +
+                        '                        <p>房形：' + houses_list[i].hometype + '</p>\n' +
+                        '                        <p>' + houses_list[i].payment + '</p>\n' +
+                        '                        <p>' + houses_list[i].decorade + '</p>\n' +
+                        '                        <p>' + houses_list[i].area + '</p>\n' +
+                        '                        <p><a href="#" class="btn btn-primary" role="button">收藏</a> <a href="#"\n' +
+                        '                                                                                           class="btn btn-default"\n' +
+                        '                                                                                           role="button">详情</a></p>\n' +
+                        '                    </div>\n' +
+                        '                </div>\n' +
+                        '            </div>')
+                    $div.appendTo($('.context'))
+                }
+
+            })
         })
     })
 
@@ -182,6 +197,7 @@
         var tag = document.getElementById("region_tag")
         // console.log(tag.innerText)
         tag.innerHTML = obj.innerText + '&nbsp;<span class="caret">'
+
     }
 </script>
 </body>
