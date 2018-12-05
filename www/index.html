@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="referrer" content="no-referrer">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+		<title></title>
+		<style type="text/css">
+			body {
+				padding-top: 70px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!-- Fixed navbar -->
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+
+					<a class="navbar-brand" href="#">Project name</a>
+				</div>
+				<div id="navbar" class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<li class="active">
+							<a href="./index.html">&nbsp;&nbsp;&nbsp;首页&nbsp;&nbsp;&nbsp;</a>
+						</li>
+						<li>
+							<a href="#about">&nbsp;&nbsp;&nbsp;论坛&nbsp;&nbsp;&nbsp;</a>
+						</li>
+						<li>
+							<a href="./search.html">&nbsp;&nbsp;&nbsp;搜索&nbsp;&nbsp;&nbsp;</a>
+						</li>
+
+					</ul>
+					<ul class="nav navbar-nav navbar-right user">
+						<form class="navbar-form navbar-left">
+							<div class="form-group">
+								<input type="text" class="form-control" id="username" placeholder="用户名">
+								<input type="text" class="form-control" id="password" placeholder="密码">
+
+							</div>
+							<button class="btn btn-default" onclick="login()">登录</button>
+						</form>
+						<li>
+							<a href="./register.html">注册</a>
+						</li>
+					</ul>
+				</div>
+				<!--/.nav-collapse -->
+			</div>
+		</nav>
+
+		<div class="container">
+
+			<div class="home_content">
+				<div class="jumbotron">
+					<h1>欢迎来到佛系租房!</h1>
+					<p>由于我们的技术人员其实什么也不会写，我们的技术人员对未来看不到一点希望，所以只能写这么一个瓜皮页面。但是————你可以先按照你喜欢的规则预览一下部分房屋信息。</p>
+					<p>
+						<a class="btn btn-primary btn-lg" href="api/" role="button">点击此处当场去世</a>
+					</p>
+				</div>
+
+				<h1>----我可以在这里干什么？</h1>
+
+				<div class="row">
+					<div class="col-md-4">
+						<h2>查找心仪的房子</h2>
+						<p>在导航栏的条件筛选组件中输入你理想的规则，网站将为你展示符合你条件的房屋。</p>
+						<p>
+							<a class="btn btn-default" href="/api/test/" role="button">点击此处当场去世 &raquo;</a>
+						</p>
+					</div>
+					<div class="col-md-4">
+						<h2>在同城论坛交流</h2>
+						<p>你可以选择进入一个城市的论坛，与其他的用户交流探讨租房经验或者与他人合租。如果你运气好碰到心仪的另一半我们会有一句MMP要讲。</p>
+						<p>
+							<a class="btn btn-default" href="{% url 'app:blog' %}" role="button">点击此处当场去世 &raquo;</a>
+						</p>
+					</div>
+					<div class="col-md-4">
+						<h2>预览全国的概况</h2>
+						<p>你可以在这里预览房价的分布情况，例如房价最高的几个城市，房价最集中的区间等。</p>
+						<p>
+							<a class="btn btn-default" href="#" role="button">点击此处当场去世 &raquo;</a>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /container -->
+
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/bootstrap.js"></script>
+		<script type="text/javascript">
+			$(function() {
+				$.ajax({
+					type: "GET",
+					url: "/api/load_user/",
+
+					success: function(data) {
+						console.log(data)
+						console.log($('.user'))
+						if(data.is_login) {
+							var $li = $('<li>\n' +
+								'                            <a href="#"><span>欢迎，' + data.username + '。</span></a>\n' +
+								'                        </li>\n' +
+								'\n' +
+								'                        <li>\n' +
+								'                            <a href="#"><span>我的收藏</span></a>\n' +
+								'                        </li>\n' +
+								'\n' +
+								'                        <li>\n' +
+								'                            <a href="#"><span>修改信息</span></a>\n' +
+								'                        </li>\n' +
+								'\n' +
+								'                        <li>\n' +
+								'                            <a href="#" onclick="logout()"><span>注销</span></a>\n' +
+								'                        </li>')
+							$('.user').empty()
+							$li.appendTo($('.user'))
+						}
+					}
+				})
+
+			})
+
+			function logout() {
+				console.log('11')
+				$.getJSON("/api/logout/", function(data) {
+					if(data.out) {
+						console.log(data)
+						window.location.reload()
+					}
+
+				})
+			}
+
+			function login() {
+				$.ajax({
+					type: "POST",
+					url: "/api/login/",
+					// data:"username=admin&password=123456&checkcode=jhdf",
+					data: {
+						username: $('#username').val(),
+						password: $('#password').val(),
+						
+					},
+					success: function(data) {
+						if(data.is_login){
+							window.location.reload()
+						}
+					}
+				})
+			}
+		</script>
+	</body>
+
+</html>
