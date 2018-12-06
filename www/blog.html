@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="./css/bootstrap.css">
+</head>
+<body>
+<!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+
+            <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="./index.html">&nbsp;&nbsp;&nbsp;首页&nbsp;&nbsp;&nbsp;</a>
+                </li>
+                <li class="active">
+                    <a href="#">&nbsp;&nbsp;&nbsp;搜索&nbsp;&nbsp;&nbsp;</a>
+                </li>
+
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" id="city_tag" data-toggle="dropdown" role="button"
+                           aria-haspopup="true" aria-expanded="false">城市 <span class="caret"></span></a>
+                        <ul class="dropdown-menu city" style="height: 400px; overflow: auto">
+
+                        </ul>
+                    </li>
+                </ul>
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <a class="navbar-brand" href="#">请点击此处转到主页登陆。</a>
+            </ul>
+        </div>
+        <!--/.nav-collapse -->
+    </div>
+</nav>
+<div class="container">
+    <div class="jumbotron">
+
+        <h1>欢迎来到<font id="city" style="color: blueviolet">{{ city }}</font>租房论坛</h1>
+        <p>此时你想对这个城市说些什么...</p>
+        <textarea id="publish" cols="100" rows="3" placeholder="这一刻对这座城市的想法..."></textarea>
+
+        <p><a id="pubutton" class="btn btn-primary btn-lg" href="#" role="button">立即发表...</a></p>
+    </div>
+</div>
+
+
+<div class="media">
+
+            <div class="media-left">
+                <a href="#">
+                    <img class="media-object" width="64" src="#" alt="icon">
+                </a>
+            </div>
+
+            <div class="media-body">
+                <div style="float:right ">好么</div>
+                <h4 class="media-heading">好拿</h4>
+
+
+
+            </div>
+
+</div>>
+
+<script type="text/javascript" src="./js/jquery.js"></script>
+<script type="text/javascript" src="./js/bootstrap.js"></script>
+<script>
+    $(function () {
+
+        $.getJSON("/api/load_city/", function (data) {
+            var citys_list = data.citys_list
+            for (i = 0; i < citys_list.length; i++) {
+                var $li = $('<li><a href="#" class="choose_city" onclick="choose_value(this)">' + citys_list[i] + '</a></li>')
+                $li.appendTo($('.city'))
+
+            }
+        })
+    })
+    function choose_value(obj) {
+        var city = $('#city_tag')
+        city.html(obj.innerHTML + '<span class="caret"></span>')
+        var city_name = city.text()
+        $.getJSON('/api/blog/',{'city':city_name},function (data) {
+            if(data['status'] == '404'){
+                console.log('1111')
+
+            }else{
+                for (var i=1;i<data.length;i++){
+                    $('.media-heading').each(function () {
+                        console.log(data[i])
+
+
+                    })
+
+                }
+
+
+
+
+
+            }
+
+        })
+
+
+    }
+
+</script>
+</body>
+</html>
