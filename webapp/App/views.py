@@ -2,9 +2,8 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, render_to_response
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from App.models import *
-
-
 # Create your views here.
+
 
 
 def load_city(request):
@@ -49,6 +48,7 @@ def load_user(request):
 
 
 def home(request):
+
     return render(request, "home.html")
 
 
@@ -121,7 +121,7 @@ def blog(request):
     uid = 5
     city = request.GET.get('city')
     cid = CityModel.objects.get(citys=city).id
-    blogs = BlogModel.objects.filter(city_id=cid)
+    blogs = BlogModel.objects.filter(city_id = cid)
     if not blogs.exists():
         data = {
             'status': '404',
@@ -129,21 +129,30 @@ def blog(request):
             'uid': uid
 
         }
-        return JsonResponse(data)
     else:
         blogs = blogs.all()
         data = {
             'status': '200',
             'blogs': list(blogs.values())
         }
-        return JsonResponse(data)
+    return JsonResponse(data)
 
-    # data = {
-    #     'a': city,
-    #
-    # }
-    # print(blogs)
-    # return JsonResponse(data)
+def save_blog(request):
+    city = request.GET.get('city')
+    cid = CityModel.objects.get(citys=city).id
+    content = request.GET.get('content')
+    blg = BlogModel()
+    blg.rid = 0
+    blg.content = content
+    blg.city_id = cid
+    blg.user_id = 5
+    blg.save()
+    data = {
+        'status':'200',
+        'message':'ok'
+    }
+    return JsonResponse(data)
+
 
 
 def load_house(request):
@@ -193,7 +202,6 @@ def load_house_info(request):
     return JsonResponse(data)
 
 
-
 def test(request):
     htest = HouseModel.objects.filter(id__lt=20)
 
@@ -214,3 +222,5 @@ def hello(request):
 
 def registerPage(request):
     return render_to_response("register_test.html")
+
+
