@@ -87,6 +87,7 @@ def login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         pwd = request.POST.get('password')
+        print(username, pwd)
 
         users = UserModel.objects.filter(username=username)
 
@@ -99,7 +100,7 @@ def login(request):
                 data['is_login'] = True
                 print('id', user.id)
 
-    return JsonResponse(data)
+    return HttpResponseRedirect('/')
 
 
 def logout(request):
