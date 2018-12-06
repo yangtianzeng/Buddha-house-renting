@@ -41,34 +41,23 @@
     </div>
 </nav>
 <div class="container">
-    <div class="jumbotron">
+    <div  class="jumbotron">
 
-        <h1>欢迎来到<font id="city" style="color: blueviolet">{{ city }}</font>租房论坛</h1>
+        <h1>欢迎来到<font id="city" style="color: blueviolet"></font>租房论坛</h1>
         <p>此时你想对这个城市说些什么...</p>
         <textarea id="publish" cols="100" rows="3" placeholder="这一刻对这座城市的想法..."></textarea>
 
         <p><a id="pubutton" class="btn btn-primary btn-lg" href="#" role="button">立即发表...</a></p>
     </div>
+
+    <div class="media" id="media">
+
+
+
+    </div>
+
 </div>
 
-
-<div class="media">
-
-            <div class="media-left">
-                <a href="#">
-                    <img class="media-object" width="64" src="#" alt="icon">
-                </a>
-            </div>
-
-            <div class="media-body">
-                <div style="float:right ">好么</div>
-                <h4 class="media-heading">好拿</h4>
-
-
-
-            </div>
-
-</div>>
 
 <script type="text/javascript" src="./js/jquery.js"></script>
 <script type="text/javascript" src="./js/bootstrap.js"></script>
@@ -84,34 +73,59 @@
             }
         })
     })
+
     function choose_value(obj) {
+
         var city = $('#city_tag')
+        $('#city').text(obj.innerHTML)
         city.html(obj.innerHTML + '<span class="caret"></span>')
         var city_name = city.text()
-        $.getJSON('/api/blog/',{'city':city_name},function (data) {
-            if(data['status'] == '404'){
-                console.log('1111')
+        $.getJSON('/api/blog/', {'city': city_name}, function (data) {
+            if(data["status"] == "404"){
+
 
             }else{
-                for (var i=1;i<data.length;i++){
-                    $('.media-heading').each(function () {
-                        console.log(data[i])
+                for (i = 0; i < data.blogs.length; i++) {
+                    var $div = $('<div class="media-left">\n' +
+                        '                <a href="#">\n' +
+                        '                    <img class="media-object" width="64" src="http://www.qqtu8.net/f/20120826081510_3.jpg" alt="icon">\n' +
+                        '                </a>\n' +
+                        '            </div>\n' +
+                        '\n' +
+                        '                <h3 style="text-align: left" class="media-heading">用户名</h3>\n' +
 
-
-                    })
+                        '            <div class="media-body">\n' +
+                        '                <div style="float:right ">回复</div>\n' +
+                        '                <h1 style="text-align: center" class="media-heading">'+data["blogs"][i]["content"]+'</h1>\n' +
+                        '\n' +
+                        '\n' +
+                        '\n' +
+                        '            </div><br/>')
+                    $div.appendTo($('#media'))
 
                 }
 
-
-
-
-
             }
+
+
 
         })
 
 
     }
+    $('#pubutton').click(function () {
+        var content = $('#publish').val()
+        var city = $('#city').text()
+
+
+        $.getJSON('/api/save_blog/',{'content':content,'city':city},function (data) {
+            console.log(data)
+
+        })
+
+
+    })
+
 
 </script>
 </body>
