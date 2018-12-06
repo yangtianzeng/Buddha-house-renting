@@ -10,6 +10,25 @@
         body {
             padding-top: 70px;
         }
+
+        h3 {
+            height: 53px;
+        }
+
+        h4 {
+            color: red;
+        }
+
+        #infobox {
+            display: none;
+            position: fixed;
+            left: 30%;
+            top: 30%;
+            width: 490px;
+            height: 500px;
+            text-align: center;
+        }
+
     </style>
 </head>
 
@@ -62,8 +81,10 @@
                 </ul>
 
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <a class="navbar-brand" href="#">请点击此处转到主页登陆。</a>
+            <ul class="nav navbar-nav navbar-right user">
+                <li>
+                    <a class="navbar-brand" href="./index.html"><span>转到主页登录</span></a>
+                </li>
             </ul>
         </div>
         <!--/.nav-collapse -->
@@ -81,7 +102,53 @@
     </div>
 
     <div class="row context">
+        <!--房间展示区域-->
     </div>
+
+    <div id="infobox">
+        <!--详细信息弹窗-->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Panel title</h3>
+            </div>
+            <div class="panel-body">
+                <p>地址：</p>
+                <p>面积：</p>
+                <p>价格：</p>
+                <p>支付方式：</p>
+                <p>出租方式：</p>
+                <p>装修情况：</p>
+                <p>房屋类型：</p>
+                <p>房东姓名：</p>
+                <p>联系电话：</p>
+                <p>房东描述：</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!--导航栏-->
+    <nav aria-label="Page navigation">
+        <ul class="pagination pagination-lg">
+            <li>
+                <a href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <!--
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            -->
+            <li class="next_page">
+                <a href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 </div>
 
 <script type="text/javascript" src="js/jquery.js"></script>
@@ -94,6 +161,67 @@
                 var $li = $('<li><a href="#" class="choose_city" onclick="choose_c(this)">' + citys_list[i] + '</a></li>')
                 $li.appendTo($('.city'))
             }
+        })
+
+        $.getJSON("/api/load_house_before/", function (data) {
+            $('.context').empty()
+            var houses_list = data.houses
+            for (i = 0; i < houses_list.length; i++) {
+                if (houses_list[i].img == "暂无图片展示") {
+                    houses_list[i].img = "https://gss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/zhidao/wh%3D600%2C800/sign=05e1074ebf096b63814c56563c03ab7c/8b82b9014a90f6037c2a5c263812b31bb051ed3d.jpg"
+                }
+                if (houses_list[i].title.length > 22) {
+                    houses_list[i].title = houses_list[i].title.slice(0, 22) + '...'
+                }
+                console.log(typeof houses_list[i])
+                var $div = $('<div class="col-sm-6 col-md-4">\n' +
+                    '                <div class="thumbnail" houseid=' + houses_list[i].id + '>\n' +
+                    '                    <img src=' + houses_list[i].img + ' alt="..." style="height: 230px">\n' +
+                    '                    <div class="caption">\n' +
+                    '                        <h3 class="features">' + houses_list[i].title + '</h3>\n' +
+                    '                        <h4 class="features">价格：' + houses_list[i].price + '</h4>\n' +
+                    '                        <p>出租方式：' + houses_list[i].renttype + '</p>\n' +
+                    '                        <p>房形：' + houses_list[i].hometype + '</p>\n' +
+                    '                        <p>' + houses_list[i].paytype + '</p>\n' +
+                    '                        <p>' + houses_list[i].decorade + '</p>\n' +
+                    '                        <p>' + houses_list[i].area + '</p>\n' +
+                    '                        <p><a href="javascript:void(0)" class="btn btn-primary btn-lg" role="button" onclick="like(this)">收藏</a>\n' +
+                    '                            <a href="javascript:void(0)" class="btn btn-default btn-lg" role="button" onclick="info(this)">详情</a></p>\n' +
+                    '                    </div>\n' +
+                    '                </div>\n' +
+                    '            </div>')
+                $div.appendTo($('.context'))
+            }
+        })
+
+        $(function () {
+            $.ajax({
+                type: "GET",
+                url: "/api/load_user/",
+
+                success: function (data) {
+                    if (data.is_login) {
+                        var $li = $('<li>\n' +
+                            '                            <a href="#"><span>欢迎，' + data.username + '。</span></a>\n' +
+                            '                        </li>\n' +
+                            '\n' +
+                            '                        <li>\n' +
+                            '                            <a href="#"><span>我的收藏</span></a>\n' +
+                            '                        </li>\n' +
+                            '\n' +
+                            '                        <li>\n' +
+                            '                            <a href="#"><span>修改信息</span></a>\n' +
+                            '                        </li>\n' +
+                            '\n' +
+                            '                        <li>\n' +
+                            '                            <a href="#" onclick="logout()"><span>注销</span></a>\n' +
+                            '                        </li>')
+                        $('.user').empty()
+                        $li.appendTo($('.user'))
+                    }
+                }
+            })
+
         })
 
         $(".btn_search").click(function () {
@@ -109,61 +237,54 @@
                 max_p = "9999999"
             }
 
-            console.log(city, region, min_p, max_p)
-            //					window.open("/App/search/" + city.trim() + "/" + region.trim() + "/" + min_p + "/" + max_p + "/", target = "_self")
-
-
-            // $.ajax({
-            //     type: "GET",
-            //     url: "/api/load_house/",
-            //     // data: {
-            //     //     city: 'AAAA',
-            //     //     region: 'BBBB',
-            //     //     min_p: min_p,
-            //     //     max_p: max_p
-            //     // },
-            //     success: function (data) {
-            //         console.log(data)
-            //     }
-            // })
 
             $.getJSON("/api/load_house/", {
                 city: city.trim(),
                 region: region.trim(),
                 min_p: min_p,
-                max_p: max_p
+                max_p: max_p,
+                page: 1
             }, function (data) {
-                console.log('111')
                 $('.context').empty()
                 var num = data.num
                 $('#text').text('根据选择的条件，为您筛选出了' + num + '条信息。')
 
                 var houses_list = data.houses
-                console.log(houses_list)
                 for (i = 0; i < houses_list.length; i++) {
                     if (houses_list[i].img == "暂无图片展示") {
                         houses_list[i].img = "https://gss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/zhidao/wh%3D600%2C800/sign=05e1074ebf096b63814c56563c03ab7c/8b82b9014a90f6037c2a5c263812b31bb051ed3d.jpg"
                     }
-                    if (houses_list[i].title.length > 22){
+                    if (houses_list[i].title.length > 22) {
                         houses_list[i].title = houses_list[i].title.slice(0, 22) + '...'
                     }
                     var $div = $('<div class="col-sm-6 col-md-4">\n' +
-                        '                <div class="thumbnail">\n' +
+                        '                <div class="thumbnail" houseid=' + houses_list[i].id + '>\n' +
                         '                    <img src=' + houses_list[i].img + ' alt="..." style="height: 230px">\n' +
                         '                    <div class="caption">\n' +
                         '                        <h3 class="features">' + houses_list[i].title + '</h3>\n' +
+                        '                        <h4 class="features">价格：' + houses_list[i].price + '</h4>\n' +
                         '                        <p>出租方式：' + houses_list[i].renttype + '</p>\n' +
                         '                        <p>房形：' + houses_list[i].hometype + '</p>\n' +
-                        '                        <p>' + houses_list[i].payment + '</p>\n' +
+                        '                        <p>' + houses_list[i].paytype + '</p>\n' +
                         '                        <p>' + houses_list[i].decorade + '</p>\n' +
                         '                        <p>' + houses_list[i].area + '</p>\n' +
-                        '                        <p><a href="#" class="btn btn-primary" role="button">收藏</a> <a href="#"\n' +
-                        '                                                                                           class="btn btn-default"\n' +
-                        '                                                                                           role="button">详情</a></p>\n' +
+                        '                        <p><a href="javascript:void(0)" class="btn btn-primary btn-lg" role="button" onclick="like(this)">收藏</a>\n' +
+                        '                            <a href="javascript:void(0)" class="btn btn-default btn-lg" role="button" onclick="info(this)">详情</a></p>\n' +
                         '                    </div>\n' +
                         '                </div>\n' +
                         '            </div>')
                     $div.appendTo($('.context'))
+                }
+
+                $('.firstpage').remove()
+                for (i = 1; i <= data.pagenum; i++) {
+                    if (i == 1) {
+                        $('.next_page').before('<li class="active firstpage"><a href="#" onclick="choose_page(this)">' + i.toString() + '</a></li>')
+
+                    }
+                    else {
+                        $('.next_page').before('<li><a href="#" onclick="choose_page(this)">' + i.toString() + '</a></li>')
+                    }
                 }
 
             })
@@ -173,8 +294,6 @@
     function choose_c(obj) {
         $('#region_tag').html("区域" + '&nbsp;<span class="caret">')
         var city_name = $(obj)
-        console.log(city_name.text())
-        // console.log(city_name.parent().parent().prev().text())
         var tag = city_name.parent().parent().prev()
         tag.html(city_name.text() + '&nbsp;<span class="caret">')
 
@@ -199,6 +318,102 @@
         tag.innerHTML = obj.innerText + '&nbsp;<span class="caret">'
 
     }
+
+    function choose_page(obj) {
+        var city = $("#city_tag").text()
+        var region = $("#region_tag").text()
+        var min_p = $("#min_p").val()
+        var max_p = $("#max_p").val()
+
+        if (min_p.trim() == "") {
+            min_p = "0"
+        }
+        if (max_p.trim() == "") {
+            max_p = "9999999"
+        }
+
+        $.getJSON("/api/load_house/", {
+            city: city.trim(),
+            region: region.trim(),
+            min_p: min_p,
+            max_p: max_p,
+            page: obj.innerText
+        }, function (data) {
+            $('.context').empty()
+            var num = data.num
+            $('#text').text('根据选择的条件，为您筛选出了' + num + '条信息。')
+
+            var houses_list = data.houses
+            for (i = 0; i < houses_list.length; i++) {
+                if (houses_list[i].img == "暂无图片展示") {
+                    houses_list[i].img = "https://gss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/zhidao/wh%3D600%2C800/sign=05e1074ebf096b63814c56563c03ab7c/8b82b9014a90f6037c2a5c263812b31bb051ed3d.jpg"
+                }
+                if (houses_list[i].title.length > 22) {
+                    houses_list[i].title = houses_list[i].title.slice(0, 22) + '...'
+                }
+                var $div = $('<div class="col-sm-6 col-md-4">\n' +
+                    '                <div class="thumbnail" houseid=' + houses_list[i].id + '>\n' +
+                    '                    <img src=' + houses_list[i].img + ' alt="..." style="height: 230px">\n' +
+                    '                    <div class="caption">\n' +
+                    '                        <h3 class="features">' + houses_list[i].title + '</h3>\n' +
+                    '                        <h4 class="features">价格：' + houses_list[i].price + '</h4>\n' +
+                    '                        <p>出租方式：' + houses_list[i].renttype + '</p>\n' +
+                    '                        <p>房形：' + houses_list[i].hometype + '</p>\n' +
+                    '                        <p>' + houses_list[i].paytype + '</p>\n' +
+                    '                        <p>' + houses_list[i].decorade + '</p>\n' +
+                    '                        <p>' + houses_list[i].area + '</p>\n' +
+                    '                        <p><a href="javascript:void(0)" class="btn btn-primary btn-lg" role="button" onclick="like(this)">收藏</a>\n' +
+                    '                            <a href="javascript:void(0)" class="btn btn-default btn-lg" role="button" onclick="info(this)">详情</a></p>\n' +
+                    '                    </div>\n' +
+                    '                </div>\n' +
+                    '            </div>')
+                $div.appendTo($('.context'))
+            }
+        })
+        $(obj).parent().siblings().removeClass("active")
+        $(obj).parent().addClass("active")
+    }
+
+    function like(obj) {
+        console.log($(obj))
+    }
+
+
+    function info(obj) {
+        houseid = $(obj).parent().parent().parent().attr("houseid")
+        $.getJSON("/api/load_house_info/", {houseid: houseid}, function (data) {
+            console.log(data.house[0])
+            data = data.house[0]
+            console.log(data.title)
+            $('#infobox').empty()
+            $('#infobox').append(
+                '<div class="panel panel-default">\n' +
+                '            <div class="panel-heading">\n' +
+                '                <h2 class="panel-title">房屋详细信息</h2>\n' +
+                '            </div>\n' +
+                '            <div class="panel-body">\n' +
+                '        <h3>' + data.title + '</h3>\n' +
+                '        <p>地址：' + data.address + '</p>\n' +
+                '        <p>面积：' + data.area + '</p>\n' +
+                '        <p>价格：' + data.price + '</p>\n' +
+                '        <p>支付方式：' + data.paytype + '</p>\n' +
+                '        <p>出租方式：' + data.renttype + '</p>\n' +
+                '        <p>装修情况：' + data.decorade + '</p>\n' +
+                '        <p>房屋类型：' + data.hometype + '</p>\n' +
+                '        <p>房东姓名：' + data.linkman + '</p>\n' +
+                '        <p>联系电话：' + data.phone + '</p>\n' +
+                '        <p>房东描述：' + data.features + '</p>\n' +
+                '<button class="btn btn-default btn-lg" onclick="closeinfo()">关闭</button>\n' +
+                '</div>'
+            )
+        })
+        $('#infobox').css("display", "block")
+    }
+
+    function closeinfo() {
+        $('#infobox').css("display", "none")
+    }
+
 </script>
 </body>
 

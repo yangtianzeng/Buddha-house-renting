@@ -1,8 +1,10 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, render_to_response
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from App.models import *
-# Create your views here.
 
+
+# Create your views here.
 
 
 def load_city(request):
@@ -14,6 +16,7 @@ def load_city(request):
     data['citys_list'] = citys_list
     return JsonResponse(data)
 
+
 def load_region(request):
     city_name = request.GET.get("city_name")
     city_object = CityModel.objects.get(citys=city_name)
@@ -23,10 +26,11 @@ def load_region(request):
         regions_list.append(i.regions)
 
     data = {
-        'regions_list' : regions_list
+        'regions_list': regions_list
     }
 
     return JsonResponse(data)
+
 
 def load_user(request):
     print('load')
@@ -43,8 +47,8 @@ def load_user(request):
 
     return JsonResponse(data)
 
-def home(request):
 
+def home(request):
     return render(request, "home.html")
 
 
@@ -117,23 +121,22 @@ def blog(request):
     uid = 5
     city = request.GET.get('city')
     cid = CityModel.objects.get(citys=city).id
-    blogs = BlogModel.objects.filter(city_id = cid)
+    blogs = BlogModel.objects.filter(city_id=cid)
     if not blogs.exists():
         data = {
-            'status':'404',
-            'cid':cid,
-            'uid':uid
+            'status': '404',
+            'cid': cid,
+            'uid': uid
 
         }
         return JsonResponse(data)
     else:
         blogs = blogs.all()
         data = {
-            'status':'200',
-            'blogs':list(blogs.values())
+            'status': '200',
+            'blogs': list(blogs.values())
         }
-        return  JsonResponse(data)
-
+        return JsonResponse(data)
 
     # data = {
     #     'a': city,
@@ -148,12 +151,16 @@ def load_house(request):
     region = request.GET.get('region')
     min_p = request.GET.get('min_p')
     max_p = request.GET.get('max_p')
-    print(city, region)
+    page = request.GET.get('page')
     city_object = CityModel.objects.get(citys=city)
     city_id = city_object.id
     region_object = RegionModel.objects.filter(regions=region, city_id=city_id)
     region_object = region_object.first()
-    houses = region_object.housemodel_set.all()
+    houses_all = region_object.housemodel_set.all()
+
+    #分页
+    pagination = Paginator(houses_all.values(), 15)
+    page_obj = pagination.page(page)
     # print(houses)
 
     data = {
@@ -161,22 +168,49 @@ def load_house(request):
         'region': region,
         'min_p': min_p,
         'max_p': max_p,
-        'houses': list(houses.values()),
-        'num': len(houses)
+        'houses': list(page_obj.object_list),
+        'num': len(houses_all),
+        'pagenum': len(pagination.page_range)
     }
     return JsonResponse(data)
+
+def load_house_before(request):
+    houses = HouseModel.objects.filter(id__lt=22)
+    data = {
+        'houses': list(houses.values())
+    }
+    return JsonResponse(data)
+
+def load_house_info(request):
+    houseid = request.GET.get('houseid')
+    print(houseid)
+    house = HouseModel.objects.filter(pk=houseid)
+
+    print(list(house.values()))
+    data = {
+        'house': list(house.values())
+    }
+    return JsonResponse(data)
+
 
 
 def test(request):
+    htest = HouseModel.objects.filter(id__lt=20)
+
+    pagination = Paginator(htest.values(), 4)
+    page = pagination.page(2)
+    print(len(pagination.page_range))
     data = {
-        'a': 1,
+        'data': list(page.object_list),  # 当前页的数据(列表)
+        # 'page_range': pagination.page_range,  # 页码范围
+        # 'page': page
     }
     return JsonResponse(data)
+
 
 def hello(request):
     return JsonResponse({'result': 200, 'msg': '连接成功'})
 
+
 def registerPage(request):
     return render_to_response("register_test.html")
-
-
