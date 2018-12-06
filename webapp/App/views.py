@@ -111,14 +111,35 @@ def logout(request):
 
 
 def blog(request):
-    city = request.session.get('city')
-    region = request.session.get('region')
-    data = {
-        'a': city,
-        'b': region,
-    }
-    print(data)
-    return render(request, "blog.html", context=data)
+    # uid = request.session.get('user_id')
+    # print(uid)
+    uid = 5
+    city = request.GET.get('city')
+    cid = CityModel.objects.get(citys=city).id
+    blogs = BlogModel.objects.filter(city_id = cid)
+    if not blogs.exists():
+        data = {
+            'status':'404',
+            'cid':cid,
+            'uid':uid
+
+        }
+        return JsonResponse(data)
+    else:
+        blogs = blogs.all()
+        data = {
+            'status':'200',
+            'blogs':list(blogs.values())
+        }
+        return  JsonResponse(data)
+
+
+    # data = {
+    #     'a': city,
+    #
+    # }
+    # print(blogs)
+    # return JsonResponse(data)
 
 
 def search(request, city, region, min_p, max_p):

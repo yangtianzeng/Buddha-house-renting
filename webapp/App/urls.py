@@ -34,4 +34,5 @@ urlpatterns = [
     url(r'^registerpage/', views.registerPage, name='registerpage'),
     url(r'^searchinfo/', views.searchinfo, name='searchpage'),
 
+
 ]
