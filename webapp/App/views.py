@@ -87,6 +87,7 @@ def login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         pwd = request.POST.get('password')
+        print(username, pwd)
 
         users = UserModel.objects.filter(username=username)
 
@@ -99,7 +100,7 @@ def login(request):
                 data['is_login'] = True
                 print('id', user.id)
 
-    return JsonResponse(data)
+    return HttpResponseRedirect('/')
 
 
 def logout(request):
@@ -142,50 +143,27 @@ def blog(request):
     # return JsonResponse(data)
 
 
-def search(request, city, region, min_p, max_p):
+def load_house(request):
+    city = request.GET.get('city')
+    region = request.GET.get('region')
+    min_p = request.GET.get('min_p')
+    max_p = request.GET.get('max_p')
+    print(city, region)
     city_object = CityModel.objects.get(citys=city)
     city_id = city_object.id
     region_object = RegionModel.objects.filter(regions=region, city_id=city_id)
     region_object = region_object.first()
     houses = region_object.housemodel_set.all()
+    # print(houses)
 
     data = {
         'city': city,
         'region': region,
         'min_p': min_p,
         'max_p': max_p,
-        'houses': houses.values(),
+        'houses': list(houses.values()),
         'num': len(houses)
     }
-    request.session['search_city'] = city
-    request.session['search_region'] = region
-    request.session['search_min'] = min_p
-    request.session['search_max'] = max_p
-    return JsonResponse(data)
-
-# def searchfirst(request):
-#     houses = HouseModel
-
-def searchinfo(request):
-    city = request.session.get('search_city')
-    region = request.session.get('search_region')
-    min_p = request.session.get('search_min')
-    max_p = request.session.get('search_max')
-
-    city_object = CityModel.objects.get(citys=city)
-    regions = city_object.regionmodel_set.all()
-    regions_list = []
-    for i in regions:
-        regions_list.append(i.regions)
-
-    data = {
-        'city': city,
-        'region': region,
-        'min_p': min_p,
-        'max_p': max_p,
-        'regions_list': regions_list
-    }
-
     return JsonResponse(data)
 
 

@@ -35,13 +35,13 @@
 
 					</ul>
 					<ul class="nav navbar-nav navbar-right user">
-						<form class="navbar-form navbar-left">
+						<form class="navbar-form navbar-left" method="post" action="/api/login/">
 							<div class="form-group">
-								<input type="text" class="form-control" id="username" placeholder="用户名">
-								<input type="text" class="form-control" id="password" placeholder="密码">
+								<input type="text" class="form-control" name="username" placeholder="用户名">
+								<input type="text" class="form-control" name="password" placeholder="密码">
 
 							</div>
-							<button class="btn btn-default" onclick="login()">登录</button>
+							<button class="btn btn-default" type="submit">登录</button>
 						</form>
 						<li>
 							<a href="./register.html">注册</a>
@@ -138,23 +138,23 @@
 				})
 			}
 
-			function login() {
-				$.ajax({
-					type: "POST",
-					url: "/api/login/",
-					// data:"username=admin&password=123456&checkcode=jhdf",
-					data: {
-						username: $('#username').val(),
-						password: $('#password').val(),
-						
-					},
-					success: function(data) {
-						if(data.is_login){
-							window.location.reload()
-						}
-					}
-				})
-			}
+			// function login() {
+			// 	$.ajax({
+			// 		type: "POST",
+			// 		url: "/api/login/",
+			// 		// data:"username=admin&password=123456&checkcode=jhdf",
+			// 		data: {
+			// 			username: $('#username').val(),
+			// 			password: $('#password').val(),
+			//
+			// 		},
+			// 		success: function(data) {
+			// 			if(data.is_login){
+			// 				window.location.reload()
+			// 			}
+			// 		}
+			// 	})
+			// }
 		</script>
 	</body>
 
