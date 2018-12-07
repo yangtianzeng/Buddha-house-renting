@@ -1,3 +1,5 @@
+import hashlib
+
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, render_to_response
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
@@ -51,7 +53,11 @@ def home(request):
 
     return render(request, "home.html")
 
+def make_hash(password):
+    md5 = hashlib.md5()
+    md5.update(password.encode('utf-8'))
 
+    return md5.hexdigest()
 def register(request):
     # if request.method == 'GET':
     #     return render(request, 'register.html')
@@ -70,8 +76,8 @@ def register(request):
 
             user = UserModel()
             user.username = username
-            # user.password = make_pwd(password)
-            user.password = password
+            user.password = make_hash(password)
+            # user.password = password
             user.email = email
             user.icon = icon
             user.sex = sex
@@ -97,8 +103,8 @@ def login(request):
 
         if users.exists():
             user = users.first()
-            # if user.password == make_pwd(pwd):
-            if user.password == pwd:
+            if user.password == make_hash(pwd):
+            # if user.password == pwd:
                 request.session['user_id'] = user.id
                 data['username'] = username
                 data['is_login'] = True
