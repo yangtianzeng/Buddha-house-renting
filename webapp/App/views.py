@@ -119,30 +119,42 @@ def logout(request):
     }
     return JsonResponse(data)
 
-
 def blog(request):
-    # uid = request.session.get('user_id')
-    # print(uid)
-    uid = 5
     city = request.GET.get('city')
     cid = CityModel.objects.get(citys=city).id
     blogs = BlogModel.objects.filter(city_id = cid)
     if not blogs.exists():
         data = {
             'status': '404',
-            'cid': cid,
-            'uid': uid
-
+            # 'cid': cid,
+            # 'uid': uid
         }
     else:
+        lt = []
         blogs = blogs.all()
+        for i in blogs:
+            info = []
+            uid = i.user_id
+            users = UserModel.objects.get(id=uid)
+            icons = users.icon
+            username = users.username
+            icon = '/static/uploadfiles/' + icons.url
+            content= i.content
+            info.append(uid)
+            info.append(icon)
+            info.append(username)
+            info.append(content)
+            lt.append(info)
         data = {
             'status': '200',
-            'blogs': list(blogs.values())
+            'blogs': lt
         }
+
+
     return JsonResponse(data)
 
 def save_blog(request):
+    uid = request.session.get('user_id')
     city = request.GET.get('city')
     cid = CityModel.objects.get(citys=city).id
     content = request.GET.get('content')
@@ -150,7 +162,7 @@ def save_blog(request):
     blg.rid = 0
     blg.content = content
     blg.city_id = cid
-    blg.user_id = 5
+    blg.user_id = uid
     blg.save()
     data = {
         'status':'200',
