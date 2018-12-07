@@ -34,7 +34,7 @@ def load_region(request):
 
 
 def load_user(request):
-    print('load')
+    print('load_user')
     data = {}
     userid = request.session.get("user_id")
     print('load id', userid)
@@ -97,7 +97,6 @@ def login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         pwd = request.POST.get('password')
-        print(username, pwd)
 
         users = UserModel.objects.filter(username=username)
 
@@ -169,9 +168,18 @@ def load_house(request):
     page = request.GET.get('page')
     city_object = CityModel.objects.get(citys=city)
     city_id = city_object.id
-    region_object = RegionModel.objects.filter(regions=region, city_id=city_id)
-    region_object = region_object.first()
-    houses_all = region_object.housemodel_set.all()
+    if region == '全部区域':
+        region_object = city_object.regionmodel_set.all()
+        houses_all = HouseModel.objects.none()
+        count = 1
+        for i in region_object:
+            houses_all = houses_all | i.housemodel_set.all()
+        print(houses_all)
+
+    else:
+        region_object = RegionModel.objects.filter(regions=region, city_id=city_id)
+        region_object = region_object.first()
+        houses_all = region_object.housemodel_set.all()
 
     #分页
     pagination = Paginator(houses_all.values(), 15)
