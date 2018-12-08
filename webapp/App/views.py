@@ -6,7 +6,17 @@ from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from App.models import *
 # Create your views here.
 
+def usernames(request):
+    username = request.GET.get('username')
+    print(username)
+    count = UserModel.objects.filter(username=username).count()
+    print(count, type(count))
+    data = {
+        "username": username,
+        "count": count
+    }
 
+    return JsonResponse(data)
 
 def load_city(request):
     data = {}

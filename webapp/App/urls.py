@@ -35,6 +35,6 @@ urlpatterns = [
     url(r'^hello/', views.hello, name="hello"),
     url(r'^registerpage/', views.registerPage, name='registerpage'),
     url(r'^save_blog/',views.save_blog,name='save_blog'),
-
+    url(r'^usernames/',views.usernames,name='usernames'),
 
 ]
