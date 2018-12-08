@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^load_house/', views.load_house, name="load_house"),
     url(r'^load_house_before/', views.load_house_before, name="load_house_before"),
     url(r'^load_house_info/', views.load_house_info, name="load_house_info"),
+    url(r'^add_like/', views.add_like, name="add_like"),
     url(r'^home/', views.home, name="home"),
     url(r'^load_city/', views.load_city, name="load_city"),
 

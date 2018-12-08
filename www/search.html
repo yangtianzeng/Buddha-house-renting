@@ -40,6 +40,10 @@
             margin: 10px;
         }
 
+        .div_like {
+            float: right;
+        }
+
     </style>
 </head>
 
@@ -387,7 +391,21 @@
     }
 
     function like(obj) {
-        console.log($(obj))
+        houseid = $(obj).parent().parent().parent().attr("houseid")
+        $.getJSON("/api/add_like/", {houseid: houseid}, function (data) {
+            //$('.div_like').remove()
+            if (data.status == "200"){
+                console.log('ok')
+                $(obj).parent().before('<div class="div_like"><h4>收藏成功！</h4></div>')
+            }
+            else {
+                console.log('000')
+                $(obj).parent().before('<div class="div_like"><h4>已取消收藏</h4></div>')
+            }
+            setTimeout(function () {
+                $('.div_like').remove()
+            }, 1000)
+        })
     }
 
 
