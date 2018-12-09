@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="./css/bootstrap.css">
+    <style type="text/css">
+        body {
+            padding-top: 70px;
+        }
+    </style>
 </head>
 <body>
 <!-- Fixed navbar -->
@@ -11,7 +16,7 @@
     <div class="container">
         <div class="navbar-header">
 
-            <a class="navbar-brand" href="#">Project name</a>
+            <a class="navbar-brand" href="#">佛系租房</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -19,7 +24,10 @@
                     <a href="./index.html">&nbsp;&nbsp;&nbsp;首页&nbsp;&nbsp;&nbsp;</a>
                 </li>
                 <li class="active">
-                    <a href="#">&nbsp;&nbsp;&nbsp;搜索&nbsp;&nbsp;&nbsp;</a>
+                    <a href="./blog.html">&nbsp;&nbsp;&nbsp;论坛&nbsp;&nbsp;&nbsp;</a>
+                </li>
+                <li>
+                    <a href="./search.html">&nbsp;&nbsp;&nbsp;搜索&nbsp;&nbsp;&nbsp;</a>
                 </li>
 
                 <ul class="nav navbar-nav">
@@ -41,7 +49,7 @@
     </div>
 </nav>
 <div class="container">
-    <div  class="jumbotron">
+    <div class="jumbotron">
 
         <h1>欢迎来到<font id="city" style="color: blueviolet"></font>租房论坛</h1>
         <p>此时你想对这个城市说些什么...</p>
@@ -51,7 +59,6 @@
     </div>
 
     <div class="media" id="media">
-
 
 
     </div>
@@ -81,10 +88,10 @@
         city.html(obj.innerHTML + '<span class="caret"></span>')
         var city_name = city.text()
         $.getJSON('/api/blog/', {'city': city_name}, function (data) {
-            if(data["status"] == "404"){
+            if (data["status"] == "404") {
 
 
-            }else{
+            } else {
                 for (i = 0; i < data.blogs.length; i++) {
                     var $div = $('<div class="media-left">\n' +
                         '                <a href="#">\n' +
@@ -96,7 +103,7 @@
 
                         '            <div class="media-body">\n' +
                         '                <div style="float:right ">回复</div>\n' +
-                        '                <h1 style="text-align: center" class="media-heading">'+data["blogs"][i]["content"]+'</h1>\n' +
+                        '                <h1 style="text-align: center" class="media-heading">' + data["blogs"][i]["content"] + '</h1>\n' +
                         '\n' +
                         '\n' +
                         '\n' +
@@ -108,17 +115,17 @@
             }
 
 
-
         })
 
 
     }
+
     $('#pubutton').click(function () {
         var content = $('#publish').val()
         var city = $('#city').text()
 
 
-        $.getJSON('/api/save_blog/',{'content':content,'city':city},function (data) {
+        $.getJSON('/api/save_blog/', {'content': content, 'city': city}, function (data) {
             console.log(data)
 
         })

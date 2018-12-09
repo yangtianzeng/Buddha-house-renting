@@ -1,169 +1,169 @@
 <!DOCTYPE html>
 <html>
 
-	<head>
-		<meta charset="utf-8" />
-		<meta name="referrer" content="no-referrer">
-		<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
-		<title></title>
-		<style type="text/css">
-			body {
-				padding-top: 70px;
-			}
-            .fenxi {
+<head>
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+    <title></title>
+    <style type="text/css">
+        body {
+            padding-top: 70px;
+        }
 
-                width: 100%;
+        .fenxi {
+
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+<!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+
+            <a class="navbar-brand" href="#">佛系租房</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="active">
+                    <a href="./index.html">&nbsp;&nbsp;&nbsp;首页&nbsp;&nbsp;&nbsp;</a>
+                </li>
+                <li>
+                    <a href="./blog.html">&nbsp;&nbsp;&nbsp;论坛&nbsp;&nbsp;&nbsp;</a>
+                </li>
+                <li>
+                    <a href="./search.html">&nbsp;&nbsp;&nbsp;搜索&nbsp;&nbsp;&nbsp;</a>
+                </li>
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right user">
+                <form class="navbar-form navbar-left" action="/api/login/" method="post">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="username" placeholder="用户名">
+                        <input type="text" class="form-control" name="password" placeholder="密码">
+
+                    </div>
+                    <button class="btn btn-info submit">登录</button>
+                </form>
+                <li>
+                    <a href="./register.html">注册</a>
+                </li>
+            </ul>
+        </div>
+        <!--/.nav-collapse -->
+    </div>
+</nav>
+
+<div class="container">
+
+    <div class="home_content">
+        <div class="jumbotron">
+            <h1>欢迎来到佛系租房!</h1>
+            <p></p>
+        </div>
+
+        <h1>----我可以在这里干什么？</h1>
+
+        <div class="row">
+            <div class="col-md-4">
+                <h2>查找心仪的房子</h2>
+                <p>你可以在导航中转到搜索页面，根据指定的条件搜索房屋的信息。根据你选择的信息，网站将根据城市为你做出分析与参考。</p>
+                <p>
+                    <a class="btn btn-info btn-lg" href="/api/test/" role="button">点击此处当场去世 &raquo;</a>
+                </p>
+            </div>
+            <div class="col-md-4">
+                <h2>在同城论坛交流</h2>
+                <p>你可以选择进入一个城市的论坛，与其他的用户交流探讨租房经验或寻求合租的租客。你也可以在这里与他人分享你此刻的心情。</p>
+                <p>
+                    <a class="btn btn-info btn-lg" href="{% url 'app:blog' %}" role="button">点击此处当场去世 &raquo;</a>
+                </p>
+            </div>
+            <div class="col-md-4">
+                <h2>预览全国的概况</h2>
+                <p>你可以在这里直观的了解一些数据，此处以下统计图是根据所有的房屋信息按一定规则做出的分析。</p>
+                <p>
+                    <a class="btn btn-info btn-lg" href="#" role="button">点击此处当场去世 &raquo;</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    <div class="fenxi"></div>
+</div>
+<!-- /container -->
+
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $.ajax({
+            type: "GET",
+            url: "/api/load_user/",
+
+            success: function (data) {
+                console.log(data)
+                console.log($('.user'))
+                if (data.is_login) {
+                    var $li = $('<li>\n' +
+                        '                            <a href="#"><span>欢迎，' + data.username + '。</span></a>\n' +
+                        '                        </li>\n' +
+                        '\n' +
+                        '                        <li>\n' +
+                        '                            <a href="#"><span>我的收藏</span></a>\n' +
+                        '                        </li>\n' +
+                        '\n' +
+                        '                        <li>\n' +
+                        '                            <a href="#"><span>修改信息</span></a>\n' +
+                        '                        </li>\n' +
+                        '\n' +
+                        '                        <li>\n' +
+                        '                            <a href="#" onclick="logout()"><span>注销</span></a>\n' +
+                        '                        </li>')
+                    $('.user').empty()
+                    $li.appendTo($('.user'))
+                }
             }
-		</style>
-	</head>
+        })
 
-	<body>
-		<!-- Fixed navbar -->
-		<nav class="navbar navbar-default navbar-fixed-top">
-			<div class="container">
-				<div class="navbar-header">
+        $('.fenxi').load('./high_low1.html')
 
-					<a class="navbar-brand" href="#">Project name</a>
-				</div>
-				<div id="navbar" class="navbar-collapse collapse">
-					<ul class="nav navbar-nav">
-						<li class="active">
-							<a href="./index.html">&nbsp;&nbsp;&nbsp;首页&nbsp;&nbsp;&nbsp;</a>
-						</li>
-						<li>
-							<a href="./blog.html">&nbsp;&nbsp;&nbsp;论坛&nbsp;&nbsp;&nbsp;</a>
-						</li>
-						<li>
-							<a href="./search.html">&nbsp;&nbsp;&nbsp;搜索&nbsp;&nbsp;&nbsp;</a>
-						</li>
+    })
 
-					</ul>
-					<ul class="nav navbar-nav navbar-right user">
-						<form class="navbar-form navbar-left" action="/api/login/" method="post">
-							<div class="form-group">
-								<input type="text" class="form-control" name="username" placeholder="用户名">
-								<input type="text" class="form-control" name="password" placeholder="密码">
+    function logout() {
+        console.log('11')
+        $.getJSON("/api/logout/", function (data) {
+            if (data.out) {
+                console.log(data)
+                window.location.reload()
+            }
 
-							</div>
-							<button class="btn btn-info submit" >登录</button>
-						</form>
-						<li>
-							<a href="./register.html">注册</a>
-						</li>
-					</ul>
-				</div>
-				<!--/.nav-collapse -->
-			</div>
-		</nav>
+        })
+    }
 
-		<div class="container">
-
-			<div class="home_content">
-				<div class="jumbotron">
-					<h1>欢迎来到佛系租房!</h1>
-					<p></p>
-				</div>
-
-				<h1>----我可以在这里干什么？</h1>
-
-				<div class="row">
-					<div class="col-md-4">
-						<h2>查找心仪的房子</h2>
-						<p>你可以在导航中转到搜索页面，根据指定的条件搜索房屋的信息。根据你选择的信息，网站将根据城市为你做出分析与参考。</p>
-						<p>
-							<a class="btn btn-info btn-lg" href="/api/test/" role="button">点击此处当场去世 &raquo;</a>
-						</p>
-					</div>
-					<div class="col-md-4">
-						<h2>在同城论坛交流</h2>
-						<p>你可以选择进入一个城市的论坛，与其他的用户交流探讨租房经验或寻求合租的租客。你也可以在这里与他人分享你此刻的心情。</p>
-						<p>
-							<a class="btn btn-info btn-lg" href="{% url 'app:blog' %}" role="button">点击此处当场去世 &raquo;</a>
-						</p>
-					</div>
-					<div class="col-md-4">
-						<h2>预览全国的概况</h2>
-						<p>你可以在这里直观的了解一些数据，此处以下统计图是根据所有的房屋信息按一定规则做出的分析。</p>
-						<p>
-							<a class="btn btn-info btn-lg" href="#" role="button">点击此处当场去世 &raquo;</a>
-						</p>
-					</div>
-				</div>
-			</div>
-            <hr>
-
-            <div class="fenxi"></div>
-		</div>
-		<!-- /container -->
-
-
-
-		<script type="text/javascript" src="js/jquery.js"></script>
-		<script type="text/javascript" src="js/bootstrap.js"></script>
-		<script type="text/javascript">
-			$(function() {
-				$.ajax({
-					type: "GET",
-					url: "/api/load_user/",
-
-					success: function(data) {
-						console.log(data)
-						console.log($('.user'))
-						if(data.is_login) {
-							var $li = $('<li>\n' +
-								'                            <a href="#"><span>欢迎，' + data.username + '。</span></a>\n' +
-								'                        </li>\n' +
-								'\n' +
-								'                        <li>\n' +
-								'                            <a href="#"><span>我的收藏</span></a>\n' +
-								'                        </li>\n' +
-								'\n' +
-								'                        <li>\n' +
-								'                            <a href="#"><span>修改信息</span></a>\n' +
-								'                        </li>\n' +
-								'\n' +
-								'                        <li>\n' +
-								'                            <a href="#" onclick="logout()"><span>注销</span></a>\n' +
-								'                        </li>')
-							$('.user').empty()
-							$li.appendTo($('.user'))
-						}
-					}
-				})
-
-                $('.fenxi').load('./high_low1.html')
-
-			})
-
-			function logout() {
-				console.log('11')
-				$.getJSON("/api/logout/", function(data) {
-					if(data.out) {
-						console.log(data)
-						window.location.reload()
-					}
-
-				})
-			}
-
-			//function login() {
-			//	$.ajax({
-			//		type: "POST",
-			//		url: "/api/login/",
-			//		// data:"username=admin&password=123456&checkcode=jhdf",
-			//		data: {
-			//			username: $('#username').val(),
-			//			password: $('#password').val(),
-			//
-			//		},
-			//		success: function(data) {
-			//			if(data.is_login){
-			//				window.location.reload()
-			//			}
-			//		}
-			//	})
-			//}
-		</script>
-	</body>
+    //function login() {
+    //	$.ajax({
+    //		type: "POST",
+    //		url: "/api/login/",
+    //		// data:"username=admin&password=123456&checkcode=jhdf",
+    //		data: {
+    //			username: $('#username').val(),
+    //			password: $('#password').val(),
+    //
+    //		},
+    //		success: function(data) {
+    //			if(data.is_login){
+    //				window.location.reload()
+    //			}
+    //		}
+    //	})
+    //}
+</script>
+</body>
 
 </html>
