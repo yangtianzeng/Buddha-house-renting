@@ -22,7 +22,7 @@ class RegionModel(models.Model):
 class HouseModel(models.Model):
     region = models.ForeignKey("RegionModel")
     title = models.CharField(max_length=500)  # 名字
-    price = models.CharField(max_length=64)
+    price = models.IntegerField()
     paytype = models.CharField(max_length=64)
     renttype = models.CharField(max_length=64)
     hometype = models.CharField(max_length=64)

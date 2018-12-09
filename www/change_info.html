@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="referrer" content="no-referrer">
+		<link rel="stylesheet" type="text/css" href="./css/bootstrap.css" />
+		<script type="text/javascript" src="./js/jquery.js"></script>
+		<title></title>
+		<style type="text/css">
+			body {
+				padding-top: 70px;
+			}
+			
+			.form-info {
+				border: 1px solid black;
+				margin: 100px auto;
+				width: 500px;
+				padding: 50px;
+			}
+			
+			.form-info h2 {
+				font-size: 2rem;
+				margin-bottom: 20px;
+			}
+			
+			.form-info .submit {
+				text-align: center;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="container-fluid">
+			<div class="form-info">
+
+				<h2>用户信息修改</h2>
+
+				<form action="/api/change_info/" method="post" enctype="multipart/form-data">
+
+					<div class="form-group">
+						<label for="exampleInputPassword1">请输入原密码</label>
+						<input type="text" class="form-control" name="username" id="exampleInputPassword1" placeholder="请输入原密码">
+						<p class="help-block">请输入6-16位用户名</p>
+					</div>
+
+					<div class="form-group">
+						<label for="exampleInputPassword2">请输入新密码</label>
+						<input type="password" class="form-control" name="password" id="exampleInputPassword2" placeholder="请输入新密码">
+						<p class="help-block">请输入6位以上拼音字母组合密码</p>
+					</div>
+
+					<div class="form-group">
+						<label for="exampleInputEmail1">请输入新邮箱</label>
+						<input type="text" class="form-control" name="email" id="exampleInputEmail1" placeholder="请输入新邮箱">
+						<p class="help-block">请输入新邮箱</p>
+					</div>
+
+					<div class="form-group">
+						<label for="exampleInputFile" id="exampleInputFile">头像</label>
+						<input type="file" name="icon">
+
+					</div>
+					<div class="submit">
+						<button type="submit" class="btn btn-primary">确认修改</button>
+					</div>
+
+				</form>
+			</div>
+		</div>
+		<script>
+			// $(function() {
+			// 	$('.btn-primary').click(function() {
+			// 		var oldpassword = $("#exampleInputPassword1").val()
+			// 		var newpassword = $("#exampleInputPassword2").val()
+			// 		var email = $("#exampleInputEmail1").val()
+			// 		var icon = $("#exampleInputFile").val()
+			// 		$.ajax({
+			// 			type: "POST",
+			// 			async: false,
+			// 			url: "/api/change_info/",
+			// 			dataType: "jsonp",
+			// 			// jsonp: "callback",
+			// 			data: {
+			// 				"oldpassword": oldpassword,
+			// 				"newpassword": newpassword,
+			// 				"email": email,
+			// 				"icon": icon
+			// 			},
+			// 			success: function(data) {
+			// 				if(data['status']=='200'){
+			// 				    alert('信息修改成功')
+			// 				}
+			// 			}
+			// 		})
+			// 	})
+			// })
+		</script>
+	</body>
+
+</html>

@@ -41,8 +41,12 @@
                 </ul>
 
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <a class="navbar-brand" href="#">请点击此处转到主页登陆。</a>
+
+
+            <ul class="nav navbar-nav navbar-right user">
+                <li>
+                    <a class="navbar-brand" href="./index.html"><span>转到主页登录</span></a>
+                </li>
             </ul>
         </div>
         <!--/.nav-collapse -->
@@ -70,6 +74,45 @@
 <script type="text/javascript" src="./js/bootstrap.js"></script>
 <script>
     $(function () {
+        $.ajax({
+            type: "GET",
+            url: "/api/load_user/",
+
+            success: function (data) {
+                console.log(data)
+                console.log($('.user'))
+                if (data.is_login) {
+                    var $li = $('<li>\n' +
+                        '                            <a href="#"><span>欢迎，' + data.username + '。</span></a>\n' +
+                        '                        </li>\n' +
+                        '\n' +
+                        '                        <li>\n' +
+                        '                            <a href="#"><span>我的收藏</span></a>\n' +
+                        '                        </li>\n' +
+                        '\n' +
+                        '                        <li>\n' +
+                        '                            <a href="#"><span>修改信息</span></a>\n' +
+                        '                        </li>\n' +
+                        '\n' +
+                        '                        <li>\n' +
+                        '                            <a href="#" onclick="logout()"><span>注销</span></a>\n' +
+                        '                        </li>')
+                    $('.user').empty()
+                    $li.appendTo($('.user'))
+                }
+            }
+        })
+
+        function logout() {
+        console.log('11')
+        $.getJSON("/api/logout/", function (data) {
+            if (data.out) {
+                console.log(data)
+                window.location.reload()
+            }
+
+        })
+    }
 
         $.getJSON("/api/load_city/", function (data) {
             var citys_list = data.citys_list
