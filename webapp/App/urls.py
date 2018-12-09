@@ -37,5 +37,6 @@ urlpatterns = [
     url(r'^registerpage/', views.registerPage, name='registerpage'),
     url(r'^save_blog/',views.save_blog,name='save_blog'),
     url(r'^usernames/',views.usernames,name='usernames'),
+    url(r'^change_info/',views.change_info,name='change_info'),
 
 ]

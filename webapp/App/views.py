@@ -200,9 +200,13 @@ def load_house(request):
         print(houses_all)
 
     else:
-        region_object = RegionModel.objects.filter(regions=region, city_id=city_id)
+        region_object = RegionModel.objects.filter(regions=region, city_id=city_id,)
         region_object = region_object.first()
         houses_all = region_object.housemodel_set.all()
+    print('*'*100)
+    houses_all = houses_all.filter(price__lt=max_p).filter(price__gt=min_p)
+    print(houses_all)
+    print('*'*100)
 
 
 
@@ -308,4 +312,28 @@ def hello(request):
 def registerPage(request):
     return render_to_response("register_test.html")
 
+def change_info(request):
+    data = {
+        'status':'200'
+    }
+    uid = request.session.get('user_id')
+    oldpwd = request.POST.get('username')
+    newpwd = request.POST.get('password')
+    email = request.POST.get('email')
+    icon = request.FILES.get('icon')
 
+    users = UserModel.objects.filter(id=uid)
+    if users.exists():
+        user = users.first()
+        if user.password == make_hash(oldpwd):
+            print('*' * 100)
+            print('cg')
+            print('*' * 100)
+            user.password = make_hash(newpwd)
+            user.email = email
+            user.icon = icon
+            user.save()
+            data = {
+                'status':'200'
+            }
+            return HttpResponseRedirect('/')
