@@ -26,6 +26,11 @@
 			.form-info .submit {
 				text-align: center;
 			}
+            .help_info{
+                position: relative;
+                left: 402px;
+                top: -25px;
+            }
 		</style>
 	</head>
 
@@ -40,22 +45,26 @@
 					<div class="form-group">
 						<label for="exampleInputEmail1">用户名</label>
 						<input type="text" class="form-control" name="username" placeholder="请输入用户名">
-						<p class="help-block">请输入6-16位用户名</p>
+						<p id="help_info1" class="help_info"></p>
+                        <p class="help-block">请输入6-16位用户名</p>
 					</div>
 					<div class="form-group">
 						<label for="exampleInputPassword1">密码</label>
 						<input type="password" class="form-control" name="password" placeholder="请输入密码">
-						<p class="help-block">请输入6位以上拼音字母组合密码</p>
+						<p id="help_info2" class="help_info"></p>
+                        <p class="help-block">请输入6位以上拼音字母组合密码</p>
 					</div>
 					<div class="form-group">
 						<label for="exampleInputPassword1">确认密码</label>
 						<input type="password" class="form-control" name="password_confirm" placeholder="请再次输入密码">
-						<p class="help-block">请再次输入6位以上拼音字母组合密码</p>
+						<p id="help_info3" class="help_info"></p>
+                        <p class="help-block">请再次输入6位以上拼音字母组合密码</p>
 					</div>
 					<div class="form-group">
 						<label for="exampleInputPassword1">邮箱</label>
 						<input type="text" class="form-control" name="email" placeholder="请输入邮箱">
-						<p class="help-block">请输入邮箱</p>
+						<p id="help_info4" class="help_info"></p>
+                        <p class="help-block">请输入邮箱</p>
 					</div>
 					<div class="form-group">
 						<input name="sex" type="radio" value="0" />男
@@ -76,6 +85,101 @@
 
 		<script type="text/javascript" src="js/jquery.js"></script>
 		<script type="text/javascript" src="js/bootstrap.js"></script>
+          <script type="text/javascript">
+            $(function () {
+                var is_register = 0
+                $('input[name=username]').blur(function () {
+
+                    var username = $(this).val();
+                    var len = username.length;
+
+
+                    if (len < 6 || len > 15) {
+
+
+                        $('#help_info1').html('&#10005');
+                        $('#help_info1').css('color', 'red');
+
+                    } else if (len >= 6 && len <= 15) {
+
+                        $.getJSON('/api/usernames', {'username': username}, function (data) {
+                            if (data['count'] != '0') {
+
+                                $('#help_info1').text('已注册！');
+
+                                $('#help_info1').css('color', 'red');
+                            }
+                            else {
+                                $('#help_info1').html('&#10003');
+                                $('#help_info1').css('color', 'green');
+                                is_register += 1;
+
+                            }
+                        })
+                    }
+
+
+                })
+
+                $('input[name=password]').blur(function () {
+
+                    var pwd = $(this).val()
+
+                    if (/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/.test(pwd)){
+
+                         $('#help_info2').html('&#10003');
+                         $('#help_info2').css('color','green');
+                         is_register += 1;
+                    }
+                    else {
+                        $('#help_info2').html('&#10005');
+                         $('#help_info2').css('color','red');
+                    }
+                })
+                $('input[name=password_confirm]').blur(function () {
+                    var pwd = $(this).val();
+                    var pwd_pre = $('input[name=password]').val();
+
+                    if (pwd == pwd_pre){
+
+                         $('#help_info3').html('&#10003');
+                         $('#help_info3').css('color','green');
+                         is_register += 1;
+                    }
+                    else {
+                        $('#help_info3').html('&#10005');
+                         $('#help_info3').css('color','red');
+                    }
+                })
+                $('input[name=email]').blur(function () {
+                    var email = $(this).val()
+
+
+                    if (/^([0-9A-Za-z\-_\.]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/.test(email)){
+
+                         $('#help_info4').html('&#10003');
+                         $('#help_info4').css('color','green');
+
+                    }
+                    else {
+                        $('#help_info4').html('&#10005');
+                         $('#help_info4').css('color','red');
+                    }
+
+                    $('.help_info').each(function () {
+                             if($(this).html()=='✕'){
+                                 console.log($('#btn_bu'),'-------')
+                                 $('#btu_bu').attr('disabled',true);
+                             }
+
+                         })
+
+
+                })
+
+
+})
+        </script>
 	</body>
 
 </html>

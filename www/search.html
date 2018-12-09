@@ -31,6 +31,18 @@
             text-align: center;
         }
 
+        #shujubox {
+            display: none;
+            position: fixed;
+            margin: auto;
+            left: 0;
+            right: 0;
+            top: 80px;
+
+            width: 490px;
+            text-align: center;
+        }
+
         .panel-body {
             height: 500px;
             overflow: auto;
@@ -38,6 +50,10 @@
 
         .info_close {
             margin: 10px;
+        }
+
+        .div_like {
+            float: right;
         }
 
     </style>
@@ -49,7 +65,7 @@
     <div class="container">
         <div class="navbar-header">
 
-            <a class="navbar-brand" href="#">Project name</a>
+            <a class="navbar-brand" href="#">佛系租房</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -57,7 +73,7 @@
                     <a href="index.html">&nbsp;&nbsp;&nbsp;首页&nbsp;&nbsp;&nbsp;</a>
                 </li>
                 <li>
-                    <a href="#">&nbsp;&nbsp;&nbsp;论坛&nbsp;&nbsp;&nbsp;</a>
+                    <a href="blog.html">&nbsp;&nbsp;&nbsp;论坛&nbsp;&nbsp;&nbsp;</a>
                 </li>
                 <li class="active">
                     <a href="search.html">&nbsp;&nbsp;&nbsp;搜索&nbsp;&nbsp;&nbsp;</a>
@@ -133,6 +149,22 @@
                 <p>房东姓名：</p>
                 <p>联系电话：</p>
                 <p>房东描述：</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="shujubox">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">当前城市数据</h3>
+            </div>
+            <div class="panel-body">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45"
+                         aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                        <span class="sr-only">100% Complete</span>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -302,6 +334,17 @@
         })
     })
 
+    function logout() {
+        console.log('11')
+        $.getJSON("/api/logout/", function (data) {
+            if (data.out) {
+                console.log(data)
+                window.location.reload()
+            }
+
+        })
+    }
+
     function choose_c(obj) {
         $('#region_tag').html("区域" + '&nbsp;<span class="caret">')
         var city_name = $(obj)
@@ -387,7 +430,21 @@
     }
 
     function like(obj) {
-        console.log($(obj))
+        houseid = $(obj).parent().parent().parent().attr("houseid")
+        $.getJSON("/api/add_like/", {houseid: houseid}, function (data) {
+            //$('.div_like').remove()
+            if (data.status == "200") {
+                console.log('ok')
+                $(obj).parent().before('<div class="div_like"><h4>收藏成功！</h4></div>')
+            }
+            else {
+                console.log('000')
+                $(obj).parent().before('<div class="div_like"><h4>已取消收藏</h4></div>')
+            }
+            setTimeout(function () {
+                $('.div_like').remove()
+            }, 1000)
+        })
     }
 
 
@@ -417,7 +474,7 @@
                 '        <p>房东描述：' + data.features + '</p></div>\n' +
                 '<button class="btn btn-default btn-lg info_close" onclick="closeinfo()">关闭</button>\n' +
                 '</div>'
-            )00
+            )
         })
         $('#infobox').css("display", "block")
     }

@@ -6,7 +6,17 @@ from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from App.models import *
 # Create your views here.
 
+def usernames(request):
+    username = request.GET.get('username')
+    print(username)
+    count = UserModel.objects.filter(username=username).count()
+    print(count, type(count))
+    data = {
+        "username": username,
+        "count": count
+    }
 
+    return JsonResponse(data)
 
 def load_city(request):
     data = {}
@@ -226,6 +236,37 @@ def load_house_info(request):
         'house': list(house.values())
     }
     return JsonResponse(data)
+
+
+def add_like(request):
+    houseid = request.GET.get("houseid")
+    userid = request.session.get("user_id")
+    print(houseid)
+
+    data = {}
+
+    if userid:
+        likes = LikeModel.objects.filter(user=userid).filter(house=houseid)
+        houses = HouseModel.objects.filter(pk=houseid)
+        house = houses.first()
+        user = UserModel.objects.get(pk=userid)
+        if likes.exists():
+            print('已收藏')
+            like = likes.first()
+            like.delete()
+            data["status"] = "0"
+        else:
+            print('未收藏')
+            like = LikeModel()
+            like.user = user
+            like.house = house
+            like.save()
+            data["status"] = "200"
+        return JsonResponse(data)
+    else:
+        return HttpResponse('请先登录')
+
+
 
 
 def test(request):
