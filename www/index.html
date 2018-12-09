@@ -65,35 +65,56 @@
             <p></p>
         </div>
 
-        <h1>----我可以在这里干什么？</h1>
 
         <div class="row">
             <div class="col-md-4">
                 <h2>查找心仪的房子</h2>
                 <p>你可以在导航中转到搜索页面，根据指定的条件搜索房屋的信息。根据你选择的信息，网站将根据城市为你做出分析与参考。</p>
                 <p>
-                    <a class="btn btn-info btn-lg" href="/api/test/" role="button">点击此处当场去世 &raquo;</a>
+                    <a class="btn btn-info btn-lg" href="/api/test/" role="button">点击此处当场去世 &raquo;&raquo;&raquo;</a>
                 </p>
             </div>
             <div class="col-md-4">
                 <h2>在同城论坛交流</h2>
                 <p>你可以选择进入一个城市的论坛，与其他的用户交流探讨租房经验或寻求合租的租客。你也可以在这里与他人分享你此刻的心情。</p>
                 <p>
-                    <a class="btn btn-info btn-lg" href="{% url 'app:blog' %}" role="button">点击此处当场去世 &raquo;</a>
+                    <a class="btn btn-info btn-lg" href="{% url 'app:blog' %}" role="button">点击此处当场去世 &raquo;&raquo;&raquo;</a>
                 </p>
             </div>
             <div class="col-md-4">
                 <h2>预览全国的概况</h2>
-                <p>你可以在这里直观的了解一些数据，此处以下统计图是根据所有的房屋信息按一定规则做出的分析。</p>
+                <p>你可以在这里直观的了解一些数据，本页面的下方统计图是根据所有的房屋信息按一定规则做出的分析，选择标签以切换规则。</p>
                 <p>
-                    <a class="btn btn-info btn-lg" href="#" role="button">点击此处当场去世 &raquo;</a>
+                    <a class="btn btn-info btn-lg" href="#" role="button">GO &raquo;&raquo;&raquo;</a>
                 </p>
             </div>
         </div>
     </div>
     <hr>
 
-    <div class="fenxi"></div>
+    <ul class="nav nav-tabs nav-justified">
+        <li role="presentation" class="active"><a href="javascript:void(0)" onclick="area(this)">最大/小面积</a></li>
+        <li role="presentation"><a href="javascript:void(0)" onclick="price(this)">最高/低价格</a></li>
+        <li role="presentation"><a href="javascript:void(0)" onclick="pri_are(this)">性价比</a></li>
+        <li role="presentation"><a href="javascript:void(0)" onclick="pri_500(this)">价格占比</a></li>
+        <li role="presentation"><a href="javascript:void(0)" onclick="count(this)">数量</a></li>
+
+
+    </ul>
+
+    <!--<div class="fenxi"></div>
+    <div class="row">
+        <div class="col-md-6 fenxi1"></div>
+        <div class="col-md-6 fenxi2"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 fenxi3"></div>
+        <div class="col-md-6 fenxi4"></div>
+    </div>-->
+    <div class="row">
+        <div class="col-md-6 fenxi5"></div>
+        <div class="col-md-6 fenxi6"></div>
+    </div>
 </div>
 <!-- /container -->
 
@@ -131,8 +152,13 @@
             }
         })
 
-        $('.fenxi').load('./high_low1.html')
-
+        //$('.fenxi').load('./fenxi/high_low1.html')
+        $('.fenxi5').load('./fenxi/area_high.html')
+        $('.fenxi6').load('./fenxi/area_low.html')
+        //$('.fenxi3').load('./fenxi/price_high.html')
+        //$('.fenxi4').load('./fenxi/price_low.html')
+        //$('.fenxi5').load('./fenxi/pri_are_high.html')
+        //$('.fenxi6').load('./fenxi/pri_are_low.html')
     })
 
     function logout() {
@@ -144,6 +170,41 @@
             }
 
         })
+    }
+
+    function area(obj) {
+        $(obj).parent().siblings().removeClass("active")
+        $(obj).parent().addClass('active')
+        $('.fenxi5').load('./fenxi/area_high.html')
+        $('.fenxi6').load('./fenxi/area_low.html')
+    }
+
+    function price(obj) {
+        $(obj).parent().siblings().removeClass("active")
+        $(obj).parent().addClass('active')
+        $('.fenxi5').load('./fenxi/price_high.html')
+        $('.fenxi6').load('./fenxi/price_low.html')
+    }
+
+    function pri_are(obj) {
+        $(obj).parent().siblings().removeClass("active")
+        $(obj).parent().addClass('active')
+        $('.fenxi5').load('./fenxi/pri_are_high.html')
+        $('.fenxi6').load('./fenxi/pri_are_low.html')
+    }
+
+    function pri_500(obj) {
+        $(obj).parent().siblings().removeClass("active")
+        $(obj).parent().addClass('active')
+        $('.fenxi5').load('./fenxi/high_5001.html')
+        $('.fenxi6').load('./fenxi/low_5001.html')
+    }
+
+    function count(obj) {
+        $(obj).parent().siblings().removeClass("active")
+        $(obj).parent().addClass('active')
+        $('.fenxi5').load('./fenxi/count_high_house.html')
+        $('.fenxi6').load('./fenxi/count_low_house.html')
     }
 
     //function login() {
