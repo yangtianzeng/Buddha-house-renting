@@ -313,6 +313,7 @@ def registerPage(request):
     return render_to_response("register_test.html")
 
 def change_info(request):
+
     data = {
         'status':'200'
     }
