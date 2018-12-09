@@ -24,7 +24,7 @@ urlpatterns = [
     url(r'^add_like/', views.add_like, name="add_like"),
     url(r'^home/', views.home, name="home"),
     url(r'^load_city/', views.load_city, name="load_city"),
-
+    url(r'^city_fenxi/', views.city_fenxi, name="city_fenxi"),
     url(r'^load_region/', views.load_region, name="load_region"),
     url(r'^load_user/', views.load_user, name="load_user"),
 

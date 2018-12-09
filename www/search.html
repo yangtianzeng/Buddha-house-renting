@@ -31,7 +31,7 @@
             text-align: center;
         }
 
-        #shujubox {
+        #fenxibox {
             display: none;
             position: fixed;
             margin: auto;
@@ -39,13 +39,23 @@
             right: 0;
             top: 80px;
 
-            width: 490px;
+            width: 100%;
+            text-align: center;
+        }
+
+        #fenxi_btn {
+            position: fixed;
+            margin: auto;
+
+            right: 25px;
+            bottom: 25px;
             text-align: center;
         }
 
         .panel-body {
             height: 500px;
             overflow: auto;
+            text-align: center;
         }
 
         .info_close {
@@ -62,9 +72,15 @@
 <body>
 <!-- Fixed navbar -->
 <nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
+    <div class="container-fluid">
         <div class="navbar-header">
-
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
             <a class="navbar-brand" href="#">佛系租房</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
@@ -153,21 +169,27 @@
         </div>
     </div>
 
-    <div id="shujubox">
+    <div id="fenxibox">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title">当前城市数据</h3>
             </div>
-            <div class="panel-body">
+            <div class="panel-body fenxi_body">
                 <div class="progress">
                     <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45"
                          aria-valuemin="0" aria-valuemax="100" style="width: 100%">
                         <span class="sr-only">100% Complete</span>
                     </div>
                 </div>
+                <h1>正在分析，请稍后......</h1>
             </div>
+            <button class="btn btn-default btn-lg info_close" onclick="closefenxi()">关闭</button>
         </div>
 
+    </div>
+
+    <div id="fenxi_btn">
+        <button type="button" class="btn btn-primary btn-lg">查看分析</button>
     </div>
 
     <!--导航栏-->
@@ -237,35 +259,33 @@
             }
         })
 
-        $(function () {
-            $.ajax({
-                type: "GET",
-                url: "/api/load_user/",
+        $.ajax({
+            type: "GET",
+            url: "/api/load_user/",
 
-                success: function (data) {
-                    if (data.is_login) {
-                        var $li = $('<li>\n' +
-                            '                            <a href="#"><span>欢迎，' + data.username + '。</span></a>\n' +
-                            '                        </li>\n' +
-                            '\n' +
-                            '                        <li>\n' +
-                            '                            <a href="#"><span>我的收藏</span></a>\n' +
-                            '                        </li>\n' +
-                            '\n' +
-                            '                        <li>\n' +
-                            '                            <a href="#"><span>修改信息</span></a>\n' +
-                            '                        </li>\n' +
-                            '\n' +
-                            '                        <li>\n' +
-                            '                            <a href="#" onclick="logout()"><span>注销</span></a>\n' +
-                            '                        </li>')
-                        $('.user').empty()
-                        $li.appendTo($('.user'))
-                    }
+            success: function (data) {
+                if (data.is_login) {
+                    var $li = $('<li>\n' +
+                        '                            <a href="#"><span>欢迎，' + data.username + '。</span></a>\n' +
+                        '                        </li>\n' +
+                        '\n' +
+                        '                        <li>\n' +
+                        '                            <a href="#"><span>我的收藏</span></a>\n' +
+                        '                        </li>\n' +
+                        '\n' +
+                        '                        <li>\n' +
+                        '                            <a href="#"><span>修改信息</span></a>\n' +
+                        '                        </li>\n' +
+                        '\n' +
+                        '                        <li>\n' +
+                        '                            <a href="#" onclick="logout()"><span>注销</span></a>\n' +
+                        '                        </li>')
+                    $('.user').empty()
+                    $li.appendTo($('.user'))
                 }
-            })
-
+            }
         })
+
 
         $(".btn_search").click(function () {
             var city = $("#city_tag").text()
@@ -331,6 +351,31 @@
                 }
 
             })
+        })
+
+        $('#fenxi_btn').click(function () {
+            $('#fenxibox').css("display", "block")
+            $('.fenxi_body').html('                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45"\n' +
+                '                         aria-valuemin="0" aria-valuemax="100" style="width: 100%">\n' +
+                '                        <span class="sr-only">100% Complete</span>\n' +
+                '                    </div>\n' +
+                '                </div>\n' +
+                '                <h1>正在分析，请稍后......</h1>')
+            var city = $("#city_tag").text()
+            var region = $("#region_tag").text()
+            if (city.trim() == "城市") {
+                alert('先选择城市！')
+            }
+            else {
+                $.getJSON("/api/city_fenxi/", {
+                    city: city.trim(),
+                    region: region.trim(),
+                }, function (data) {
+                    var test = data.teststr
+                    $('.fenxi_body').html(test)
+
+                })
+            }
         })
     })
 
@@ -481,6 +526,10 @@
 
     function closeinfo() {
         $('#infobox').css("display", "none")
+    }
+
+    function closefenxi() {
+        $('#fenxibox').css("display", "none")
     }
 
 </script>

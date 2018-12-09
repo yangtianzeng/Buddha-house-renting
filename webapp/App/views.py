@@ -4,6 +4,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, render_to_response
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from App.models import *
+from App.fx import *
 # Create your views here.
 
 def usernames(request):
@@ -196,7 +197,7 @@ def load_house(request):
         count = 1
         for i in region_object:
             houses_all = houses_all | i.housemodel_set.all()
-
+        print(houses_all)
 
     else:
         region_object = RegionModel.objects.filter(regions=region, city_id=city_id,)
@@ -206,6 +207,9 @@ def load_house(request):
     houses_all = houses_all.filter(price__lt=max_p).filter(price__gt=min_p)
     print(houses_all)
     print('*'*100)
+
+
+
     #分页
     pagination = Paginator(houses_all.values(), 15)
     page_obj = pagination.page(page)
@@ -237,6 +241,18 @@ def load_house_info(request):
     print(list(house.values()))
     data = {
         'house': list(house.values())
+    }
+    return JsonResponse(data)
+
+def city_fenxi(request):
+    city = request.GET.get('city')
+    region = request.GET.get('region')
+    meanpri_city(city)
+    with open('App/city.html', 'r') as f:
+        test = f.read()
+
+    data = {
+        'teststr': test
     }
     return JsonResponse(data)
 
@@ -273,17 +289,20 @@ def add_like(request):
 
 
 def test(request):
-    htest = HouseModel.objects.filter(id__lt=20)
+    # htest = HouseModel.objects.filter(id__lt=20)
+    #
+    # pagination = Paginator(htest.values(), 4)
+    # page = pagination.page(2)
+    # print(len(pagination.page_range))
+    # data = {
+    #     'data': list(page.object_list),  # 当前页的数据(列表)
+    #     # 'page_range': pagination.page_range,  # 页码范围
+    #     # 'page': page
+    # }
 
-    pagination = Paginator(htest.values(), 4)
-    page = pagination.page(2)
-    print(len(pagination.page_range))
-    data = {
-        'data': list(page.object_list),  # 当前页的数据(列表)
-        # 'page_range': pagination.page_range,  # 页码范围
-        # 'page': page
-    }
-    return JsonResponse(data)
+    a = tttt()
+    print(a)
+    return HttpResponse('ok')
 
 
 def hello(request):
