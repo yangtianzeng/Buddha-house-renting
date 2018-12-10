@@ -274,7 +274,7 @@
                         '                        </li>\n' +
                         '\n' +
                         '                        <li>\n' +
-                        '                            <a href="#"><span>修改信息</span></a>\n' +
+                        '                            <a href="./change_info.html"><span>修改信息</span></a>\n' +
                         '                        </li>\n' +
                         '\n' +
                         '                        <li>\n' +
@@ -392,7 +392,7 @@
     }
 
     function choose_c(obj) {
-        $('#region_tag').html("区域" + '&nbsp;<span class="caret">')
+        $('#region_tag').html("全部区域" + '&nbsp;<span class="caret">')
         var city_name = $(obj)
         var tag = city_name.parent().parent().prev()
         tag.html(city_name.text() + '&nbsp;<span class="caret">')
