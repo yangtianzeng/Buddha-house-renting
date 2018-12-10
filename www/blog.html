@@ -79,8 +79,7 @@
             url: "/api/load_user/",
 
             success: function (data) {
-                console.log(data)
-                console.log($('.user'))
+
                 if (data.is_login) {
                     var $li = $('<li>\n' +
                         '                            <a href="#"><span>欢迎，' + data.username + '。</span></a>\n' +
@@ -104,10 +103,8 @@
         })
 
         function logout() {
-        console.log('11')
         $.getJSON("/api/logout/", function (data) {
             if (data.out) {
-                console.log(data)
                 window.location.reload()
             }
 
@@ -131,22 +128,22 @@
         city.html(obj.innerHTML + '<span class="caret"></span>')
         var city_name = city.text()
         $.getJSON('/api/blog/', {'city': city_name}, function (data) {
+            console.log('*********')
+            console.log(data.blogs)
             if (data["status"] == "404") {
-
 
             } else {
                 for (i = 0; i < data.blogs.length; i++) {
-                    var $div = $('<div class="media-left">\n' +
+                    var $div = $('<div class="media-left" style="width: 200px;height: 100px;">\n' +
                         '                <a href="#">\n' +
-                        '                    <img class="media-object" width="64" src="http://www.qqtu8.net/f/20120826081510_3.jpg" alt="icon">\n' +
+                        '                    <img class="media-object" width="64" src='+data["blogs"][i][1]+' alt="icon">\n' +
                         '                </a>\n' +
+                        '               <h3 style="text-align: left" class="media-heading">'+data["blogs"][i][2]+'</h3>\n' +
                         '            </div>\n' +
                         '\n' +
-                        '                <h3 style="text-align: left" class="media-heading">用户名</h3>\n' +
-
-                        '            <div class="media-body">\n' +
+                        '            <div class="media-body" style="height: 100px" >\n' +
                         '                <div style="float:right ">回复</div>\n' +
-                        '                <h1 style="text-align: center" class="media-heading">' + data["blogs"][i]["content"] + '</h1>\n' +
+                        '                <h1 style="text-align: left" class="media-heading">'+data["blogs"][i][3]+'</h1>\n' +
                         '\n' +
                         '\n' +
                         '\n' +
@@ -169,7 +166,7 @@
 
 
         $.getJSON('/api/save_blog/', {'content': content, 'city': city}, function (data) {
-            console.log(data)
+
 
         })
 
