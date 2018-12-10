@@ -156,6 +156,9 @@ def blog(request):
             info.append(username)
             info.append(content)
             lt.append(info)
+            print('*'*100)
+            print(lt)
+            print('*' * 100)
         data = {
             'status': '200',
             'blogs': lt
@@ -197,12 +200,13 @@ def load_house(request):
         count = 1
         for i in region_object:
             houses_all = houses_all | i.housemodel_set.all()
-        print(houses_all)
+        print(type(houses_all))
 
     else:
         region_object = RegionModel.objects.filter(regions=region, city_id=city_id,)
         region_object = region_object.first()
         houses_all = region_object.housemodel_set.all()
+        print(type(houses_all))
     print('*'*100)
     houses_all = houses_all.filter(price__lt=max_p).filter(price__gt=min_p)
     print(houses_all)
@@ -248,7 +252,7 @@ def city_fenxi(request):
     city = request.GET.get('city')
     region = request.GET.get('region')
     meanpri_city(city)
-    with open('App/city.html', 'r') as f:
+    with open('App/city.html', 'r',encoding='utf-8') as f:
         test = f.read()
 
     data = {
